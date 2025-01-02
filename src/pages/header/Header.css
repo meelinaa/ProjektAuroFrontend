@@ -1,0 +1,66 @@
+.body-layout{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px 30px;
+    align-items: center;
+}
+
+
+.header-logo {
+    width: 120px;
+    height: auto; 
+    overflow: hidden; 
+}
+  
+.header-logo img {
+    width: 100%; 
+    height: auto; 
+    display: block; 
+}
+
+.header-konto {
+    width: 40px; 
+    height: auto; 
+    overflow: hidden; 
+    border-radius: 50px;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 2px solid rgb(104, 167, 199);
+}
+  
+.header-konto img {
+    width: 100%; 
+    height: auto;
+    display: block;
+}
+
+.nav-menu{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-menu a{
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.nav-menu a:hover{
+    font-weight: 600;
+    color: rgb(23, 23, 23);
+}
+
+main{
+    align-self: center;
+    width: 100%;
+}

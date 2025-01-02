@@ -1,0 +1,138 @@
+
+.body-order{
+    background-color: rgb(250, 250, 250);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 550px;
+    width: 450px;
+    padding: 30px;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+    border-radius: 24px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    box-shadow: 0px 5px 20px rgb(166, 166, 166);
+}
+
+/*TOP*/
+.order-top{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.order-top-infos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-top-infos h1 {
+    padding: 0;
+    margin: 0;
+    font-size: 24px;
+}
+
+.order-verfuegbar, .middle-value p{
+    color: #A8A8A8;
+    padding: 0;
+    margin: 0;
+}
+
+/*MIDDLE*/
+.order-middle{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.middle-value {
+    display: flex;
+    flex-direction: column;
+}
+
+.middle-value h1{
+    padding: 0;
+    margin: -16px;
+    font-size: 60px;
+}
+
+#anteileInput{
+    font-size: 50px;
+    width: 150px;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    margin-bottom: 8px;
+}
+
+/*BOTTOM*/
+.order-bottom{
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.nextBtn{
+    font-family: "Poppins", serif;
+    font-size: 16px;
+    color: white;
+    background-color: black;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    height: 40px;
+}
+
+.nextBtn:hover{
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+}
+
+
+
+
+/*Keyboard*/
+.keyboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px; 
+    width: 200px;
+    margin: 0 auto; 
+}
+  
+.key {
+    background-color: #f6f6f6;
+    border: none;
+    border-radius: 8px;
+    height: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+  
+.key:hover {
+    background-color: #e2e2e2; 
+}
+  
+.key:active {
+    background-color: #cdcdcd; 
+}
+  
+

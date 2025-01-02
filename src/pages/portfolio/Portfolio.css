@@ -1,0 +1,79 @@
+:root {
+    --background-color: #f8f8f8;
+}
+
+.bodyPortfolio{
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+/*Portfolio*/
+.aktienUebersicht{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.aktienUebersicht table{
+    background-color: var(--background-color);
+    padding: 8px 16px;
+}
+
+.aktienUebersicht table thead{
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.aktienUebersicht table tbody tr:last-child{
+    color: green;
+    font-size: 18px;
+}
+
+/*Empfelungen*/
+.empfehlungenUebersicht{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.empfehlungenUebersichtAusgabe{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background-color: var(--background-color);
+    padding: 8px 16px;
+}
+
+.empfehlungenUebersicht table{
+    display: flex;
+    flex-direction: column;
+}
+
+/*Analyse*/
+.analyseUebersicht{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.placeholderAnalyse{
+    background-color: var(--background-color);
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.placeholder{
+    background-color: brown;
+    height: 200px;
+    width: 200px;
+}
+
+.placeholder table thead{
+    padding: 0;
+    margin: 0;
+}
