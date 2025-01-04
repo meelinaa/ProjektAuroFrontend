@@ -18,12 +18,18 @@ class AktieFetch {
     }
 
     async getPosition(ticker) {
-        const response = await fetch(`http://localhost:8080/aktie/${ticker}/positionen`);
-        if (!response.ok) {
-            throw new Error(`Fehler beim Abrufen der Positionen: ${response.statusText}`);
+        try {
+            const response = await fetch(`http://localhost:8080/aktie/${ticker}/positionen`);
+            if (!response.ok) {
+                throw new Error(`Fehler beim Abrufen der Positionen: ${response.status} ${response.statusText}`);
+            }
+            return await response.json(); 
+        } catch (error) {
+            console.error(error.message);
+            throw error;
         }
-        return await response.json();
     }
+    
 }
 
 export default AktieFetch;

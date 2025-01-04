@@ -34,6 +34,16 @@ header{
     box-sizing: border-box;
     border: 2px solid rgb(104, 167, 199);
 }
+
+.header-konto:hover{
+    border: 3px solid rgb(84, 124, 144);
+}
+
+.header-right{
+    width: 120px;
+    display: flex;
+    justify-content: end;
+}
   
 .header-konto img {
     width: 100%; 
@@ -56,8 +66,8 @@ header{
 }
 
 .nav-menu a:hover{
-    font-weight: 600;
     color: rgb(23, 23, 23);
+    text-decoration: underline;
 }
 
 main{

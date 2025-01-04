@@ -6,6 +6,8 @@
     display: flex;
     flex-direction: column;
     padding: 30px;
+    max-width: 1000px;
+    justify-self: center;
 }
 
 /*SUCHE*/
@@ -35,6 +37,10 @@
     border: 1px solid black;
 }
 
+.order-btn{
+    margin-top: 30px;
+}
+
 .suche-aktie form button, .order-btn{
     font-family: "Poppins", serif;
     font-size: 16px;
@@ -61,17 +67,29 @@
 
 .aktien-kurse{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: start;
     justify-content: space-between;
     background-color: var(--background-color);
     padding: 8px 16px;
-
 }
+
+.aktueller-kurs{
+    background-color: var(--background-color);
+}
+
+
+.aktien-kurse-top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: fit-content;
+}
+
 
 .aktien-kurse-links{
     width: 50%;
-    height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -137,20 +155,16 @@
 
 /*Chart*/
 .aktien-kurse-rechts{
-    background-color: black;
-    width: 500px;
-    margin-right: 100px;
-    height: auto; 
+    width: auto;
+    height: 250px; 
     overflow: hidden;
 }
 
 .aktien-kurse-rechts img {
     width: 100%; 
-    height: auto; 
+    height: 100%; 
     display: block; 
 }
-
-
 
 
 /*INFOS*/
