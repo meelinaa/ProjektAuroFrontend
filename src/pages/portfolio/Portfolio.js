@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import PortfolioFetch from './PortfolioFetch';
 import PortfolioAktienDaten from './PortfolioAktienDaten';
 
+import Empfehlungen from '../empfehlungen/Empfehlungen';
+
+
 import './Portfolio.css';
 import { Navigate, useNavigate } from 'react-router-dom';
 
@@ -94,8 +97,8 @@ export default function Portfolio() {
             <h1>Willkommen</h1>
 
             <div className="aktienUebersicht">
-                <h2>Portfolio</h2>
-                <table>
+                <h2>Dein Portfolio</h2>
+                <table className='portfolio-aktien-tabelle'>
                     <thead>
                         <tr>
                             <th>Aktie</th>
@@ -123,6 +126,8 @@ export default function Portfolio() {
                     </tbody>
                 </table>
             </div>
+
+            <Empfehlungen/>
         </div>
     );
 }

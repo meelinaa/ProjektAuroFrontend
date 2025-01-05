@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { use, useEffect, useState } from 'react';
 
 import './Order.css';
+import {  useParams } from 'react-router-dom';
 
 
 export default function Order() {
+  const {liveKurs: urlLiveKurs} = useParams();
+  const {ticker: urlTicker} = useParams();
 
-    const keys = [
-        '1', '2', '3',
-        '4', '5', '6',
-        '7', '8', '9',
-        ',', '0', '<'
-      ];
+  const [liveKurs, setLiveKurs] = useState(urlLiveKurs);
+  const [ticker, setTicker] = useState(urlTicker);
+  
+
+  const keys = [
+      '1', '2', '3',
+      '4', '5', '6',
+      '7', '8', '9',
+      ',', '0', '<'
+    ];
 
   return (
       <div className="body-order">

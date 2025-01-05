@@ -2,33 +2,32 @@
     --background-color: #f8f8f8;
 }
 
-.bodyPortfolio{
+.empfehlungen-body {
     display: flex;
     flex-direction: column;
-    padding: 30px;
-    width: 1000px;
     justify-self: center;
+    margin-top: 30px;
 }
 
-/*Portfolio*/
-.aktienUebersicht{
+.empfohlene-aktien {
     display: flex;
-    flex-direction: column;
-    text-align: left;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 24px;
 }
 
-.portfolio-aktien-tabelle {
+.empfohlene-aktien-tabelle {
     background-color: var(--background-color);
     padding: 8px 10px;
     width: 100%;
 }
 
-.portfolio-aktien-tabelle th,
-.portfolio-aktien-tabelle td {
+.empfohlene-aktien-tabelle th,
+.empfohlene-aktien-tabelle td {
     text-align: left;
     padding: 8px;
 }
 
-.portfolio-aktien-tabelle tr:hover {
+.empfohlene-aktien-tabelle tr:hover {
     background-color: #f0f0f0;
 }

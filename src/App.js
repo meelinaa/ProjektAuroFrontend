@@ -31,7 +31,7 @@ const router = createBrowserRouter(
               <Route path="portfolio" element={<Portfolio />} />
               <Route path="aktie" element={<Aktie />} />
               <Route path="aktie/:ticker" element={<Aktie />} />
-              <Route path="order" element={<Order />} />
+              <Route path="order/:liveKurs/:ticker" element={<Order />} />
           </Route>
       </>
   )

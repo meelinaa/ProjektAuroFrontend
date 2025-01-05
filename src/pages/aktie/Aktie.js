@@ -3,9 +3,12 @@ import AktieFetch from './AktieFetch';
 
 import Chart from '../../pictures/BspChart.png';
 
+import Empfehlungen from '../empfehlungen/Empfehlungen';
+
+
 
 import './Aktie.css';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 export default function Aktie() {
@@ -17,11 +20,14 @@ export default function Aktie() {
     const [deineDaten, setDeineDaten] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [isVisible, setIsVisible] = useState(false);
     const [isOrderVisible, setIsOrderVisible] = useState(true);
 
     const [gesamtwertPosition, setGesamtwertPosition] = useState(null);
     const [renditePosition, setRenditePosition] = useState(null);
     const [performancePosition, setPerformancePosition] = useState(null);
+
+    const navigate = useNavigate();
 
 
     const aktieFetch = new AktieFetch();
@@ -62,7 +68,9 @@ export default function Aktie() {
 
     useEffect(() => {
         if (ticker) {
+            setIsVisible(true);
             sucheAktie(ticker);
+            setTicker(ticker);
         }
     }, [ticker]);
     
@@ -86,7 +94,10 @@ export default function Aktie() {
         setGesamtwertPosition(parseFloat(gesamtwertNeu.toFixed(2)));
         setRenditePosition(parseFloat((gesamtwertNeu - gesamtwertAlt).toFixed(2)));
         setPerformancePosition(parseFloat((((gesamtwertNeu - gesamtwertAlt) / gesamtwertAlt) * 100).toFixed(2)));
+    }
 
+    function startToOrder(liveKurs, ticker){
+        navigate(`/order/${liveKurs}/${ticker}`);
     }
 
 
@@ -114,10 +125,13 @@ export default function Aktie() {
                 </form>
             </div>
 
-            {/*Live Infos */}
+            {isVisible ? (
+                <>
+
+                
+
             <div className="aktien-ausgabe">
                 <div className="aktien-kurse">
-                    {/* Live Daten */}
                     <div className="aktien-kurse-top">
                         <div className="aktien-kurse-links">
                             <div className="aktueller-kurs">
@@ -127,18 +141,13 @@ export default function Aktie() {
                                     <p className="market-change-percent">{liveDaten ? liveDaten.regularMarketChangePercent : '--'} %</p>
                                 </div>
                             </div>
-                            <button className="order-btn" >Handeln</button>
+                            <button className="order-btn" onClick={() => startToOrder(liveDaten.regularMarketPrice, ticker)}>Handeln</button>
                         </div>
 
-                        {/* 
-                        <div className="aktien-kurse-rechts">
-                            <img src={Chart} alt="Chart" />
-                        </div>
-                        */}
+                       
                         
                     </div>
                     
-                    {/* Deine Position */}
                     <div className="deine-position">
                         {deineDaten && deineDaten.buyInKurs && deineDaten.anzahlAktienAnteile ? (
                             <>
@@ -171,7 +180,6 @@ export default function Aktie() {
                 </div>
 
 
-            {/*Weitere Aktien Infos */}
             <div className="aktien-infos">
                 <div className="markt-daten">
                     <h3>Marktdaten</h3>
@@ -224,9 +232,19 @@ export default function Aktie() {
                         </tbody>
                     </table>
                 </div>
+
             </div>
 
-      </div>
+                        <Empfehlungen/>
+            
+        </div>
+
+        </>
+        ) : (
+            <>
+                <h2>Bitte Aktien Ticker angeben.</h2>
+            </>
+        )}
     </div>
   );
 }
