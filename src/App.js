@@ -7,6 +7,7 @@ import Aktie from './pages/aktie/Aktie';
 import Order from './pages/orders/Order';
 import Start from './pages/startScreen/Start';
 import { useEffect } from 'react';
+import Transaktionen from './pages/transaktionen/Transaktionen';
 
 function StartWithRedirect() {
   const navigate = useNavigate();
@@ -31,7 +32,8 @@ const router = createBrowserRouter(
               <Route path="portfolio" element={<Portfolio />} />
               <Route path="aktie" element={<Aktie />} />
               <Route path="aktie/:ticker" element={<Aktie />} />
-              <Route path="order/:liveKurs/:ticker" element={<Order />} />
+              <Route path="order/:liveKurs/:ticker/:orderType/:companyName" element={<Order />} />
+              <Route path='transaktionen' element={<Transaktionen/>} />
           </Route>
       </>
   )

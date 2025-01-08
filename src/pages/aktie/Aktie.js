@@ -96,8 +96,8 @@ export default function Aktie() {
         setPerformancePosition(parseFloat((((gesamtwertNeu - gesamtwertAlt) / gesamtwertAlt) * 100).toFixed(2)));
     }
 
-    function startToOrder(liveKurs, ticker){
-        navigate(`/order/${liveKurs}/${ticker}`);
+    function startToOrder(liveKurs, ticker, orderType, companyName){
+        navigate(`/order/${liveKurs}/${ticker}/${orderType}/${companyName}`);
     }
 
 
@@ -118,7 +118,7 @@ export default function Aktie() {
                     />
                     <button className="suche" type="submit" onClick={() => {
                                                                         const inputValue = document.getElementById('aktie-ticker').value;
-                                                                        setTicker(inputValue);
+                                                                        setTicker(inputValue.toUpperCase());
                     }}>
                         Suche
                     </button>
@@ -127,9 +127,6 @@ export default function Aktie() {
 
             {isVisible ? (
                 <>
-
-                
-
             <div className="aktien-ausgabe">
                 <div className="aktien-kurse">
                     <div className="aktien-kurse-top">
@@ -138,16 +135,19 @@ export default function Aktie() {
                                 <h1>{infoDaten ? infoDaten.companyName : '--'}</h1>
                                 <div className="kurse">
                                     <p className="market-price">{liveDaten ? liveDaten.regularMarketPrice : '--'} $</p>
-                                    <p className="market-change-percent">{liveDaten ? liveDaten.regularMarketChangePercent : '--'} %</p>
+                                    <p className={`market-change-percent ${liveDaten?.regularMarketChangePercent > 0 ? 'positive-change' : liveDaten?.regularMarketChangePercent < 0 ? 'negative-change': '' }`}>
+                                        {liveDaten ? liveDaten.regularMarketChangePercent.toFixed(2) : '--'} %
+                                    </p>                                
                                 </div>
                             </div>
-                            <button className="order-btn" onClick={() => startToOrder(liveDaten.regularMarketPrice, ticker)}>Handeln</button>
-                        </div>
-
-                       
-                        
+                            <div className="order-btns">
+                                <button className="order-btn" onClick={() => startToOrder(liveDaten.regularMarketPrice, ticker, "buy", infoDaten.companyName)}>Kaufen</button>
+                                <button className="order-btn" onClick={() => startToOrder(liveDaten.regularMarketPrice, ticker, "sell", infoDaten.companyName)}>Verkaufen</button>
+                            </div>
+                        </div> 
                     </div>
                     
+                    {/* Position */}
                     <div className="deine-position">
                         {deineDaten && deineDaten.buyInKurs && deineDaten.anzahlAktienAnteile ? (
                             <>
@@ -164,11 +164,11 @@ export default function Aktie() {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{gesamtwertPosition ? `${gesamtwertPosition} $` : '--'}</td>
-                                            <td>{performancePosition ? `${performancePosition} %` : '--'}</td>
-                                            <td>{renditePosition ? `${renditePosition} $` : '--'}</td>
-                                            <td>{deineDaten.buyInKurs ? `${deineDaten.buyInKurs} $` : '--'}</td>
-                                            <td>{deineDaten.anzahlAktienAnteile ? deineDaten.anzahlAktienAnteile : '--'}</td>
+                                            <td className='neutral'>{gesamtwertPosition ? `${gesamtwertPosition} $` : '--'}</td>
+                                            <td className={`${performancePosition > 0 ? 'positive-change' : performancePosition < 0 ? 'negative-change' : "neutral" }`}>{performancePosition ? `${performancePosition} %` : '--'}</td>
+                                            <td className={`${renditePosition > 0 ? 'positive-change' : renditePosition < 0 ? 'negative-change' : "neutral" }`}>{renditePosition ? `${renditePosition} $` : '--'}</td>
+                                            <td className='neutral'>{deineDaten.buyInKurs ? `${deineDaten.buyInKurs} $` : '--'}</td>
+                                            <td className='neutral'>{deineDaten.anzahlAktienAnteile ? deineDaten.anzahlAktienAnteile : '--'}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -235,16 +235,16 @@ export default function Aktie() {
 
             </div>
 
-                        <Empfehlungen/>
-            
-        </div>
+            <Empfehlungen/>
 
+        </div>
         </>
         ) : (
             <>
                 <h2>Bitte Aktien Ticker angeben.</h2>
             </>
         )}
+
     </div>
   );
 }

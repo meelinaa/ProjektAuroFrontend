@@ -10,6 +10,14 @@
     justify-self: center;
 }
 
+/*Gesamtwert*/
+#gesamtwertAusgabe{
+    font-size: 50px;
+    color: green;
+    padding: 0;
+    margin: 0;
+}
+
 /*Portfolio*/
 .aktienUebersicht{
     display: flex;
@@ -32,3 +40,12 @@
 .portfolio-aktien-tabelle tr:hover {
     background-color: #f0f0f0;
 }
+
+.positive-performance {
+    color: green;
+}
+
+.negative-performance {
+    color: red;
+}
+

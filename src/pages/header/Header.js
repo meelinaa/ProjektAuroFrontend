@@ -20,8 +20,7 @@ export default function Header() {
             <nav className="nav-menu">
                 <NavLink to="portfolio">Portfolio</NavLink>
                 <NavLink to="aktie">Aktie</NavLink>
-                <NavLink to="order/:liveKurs/:ticker">Handeln</NavLink>
-
+                <NavLink to="transaktionen">Transaktionen</NavLink>
             </nav>
 
             <div className="header-right">

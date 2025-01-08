@@ -1,5 +1,13 @@
 
 .body-order{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.order-card{
     background-color: rgb(250, 250, 250);
     display: flex;
     flex-direction: column;
@@ -12,10 +20,6 @@
     justify-self: center;
     text-align: center;
     border-radius: 24px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     z-index: 1000;
     box-shadow: 0px 5px 20px rgb(166, 166, 166);
 }
@@ -72,7 +76,8 @@
     width: 150px;
     text-align: center;
     background-color: transparent;
-    border: none;
+    border: 1px solid gray;
+    border-radius: 8px;
     margin-bottom: 8px;
 }
 
@@ -80,11 +85,10 @@
 .order-bottom{
     width: 100%;
     display: flex;
-    justify-content: right;
-    align-items: center;
+    justify-content: space-between;
 }
 
-.nextBtn{
+.nextBtn, #inputType{
     font-family: "Poppins", serif;
     font-size: 16px;
     color: white;
@@ -95,12 +99,23 @@
     height: 40px;
 }
 
-.nextBtn:hover{
+.nextBtn:hover, #inputType:hover{
     color: black;
     background-color: white;
     border: 1px solid black;
 }
 
+.btn-disabled{
+    background-color: gray;
+    cursor: not-allowed;
+    font-family: "Poppins", serif;
+    font-size: 16px;
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    height: 40px;
+}
 
 
 
@@ -135,4 +150,26 @@
     background-color: #cdcdcd; 
 }
   
+
+/*Uebersicht*/
+.order-infos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.order-uebersicht-tab{
+    width: 100%;
+    padding: 30px;
+}
+
+.order-uebersicht-tab tr td:first-child{
+    text-align: left;
+    font-weight: 500;
+}
+
+.order-uebersicht-tab tr td:last-child{
+    text-align: right;
+}
+
 

@@ -1,50 +1,48 @@
 import AktieFetch from '../aktie/AktieFetch';
 
 class PortfolioAktienDaten {
+    aktieFetch = new AktieFetch();
 
-    aktuellerKurs = 0;
-    gesamtwert = 0;
-    gesamtwertAlt = 0;
-    performance = 0;
-    rendite = 0;
-
-    constructor() {
-        this.aktieFetch = new AktieFetch();
-    }
+    liveDataCache = new Map();
 
     async getAktienLiveKurs(aktie) {
         try {
-            const liveDaten = await this.aktieFetch.getLiveData(aktie.id);
-            this.aktuellerKurs = liveDaten.regularMarketPrice;
-            console.log(this.aktuellerKurs);
-            return this.aktuellerKurs ; 
+            if (this.liveDataCache.has(aktie.id)) {
+                console.log(`Cache-Hit für ${aktie.id}`);
+                return this.liveDataCache.get(aktie.id);
+            }
 
+            const liveDaten = await this.aktieFetch.getLiveData(aktie.id);
+            const aktuellerKurs = liveDaten.regularMarketPrice;
+            console.log(`API-Aufruf für ${aktie.id}: ${aktuellerKurs}`);
+
+            this.liveDataCache.set(aktie.id, aktuellerKurs);
+
+            return aktuellerKurs;
         } catch (error) {
             console.error('Fehler bei getAktienLiveKurs:', error.message);
             throw new Error('Live-Daten konnten nicht abgerufen werden.');
         }
     }
 
-    getAktienGesamtWert(aktie){
-        this.gesamtwert = aktie.anzahlAktienAnteile * this.aktuellerKurs;
-
-        return this.gesamtwert;
+    getAktienGesamtWert(aktie, aktuellerKurs) {
+        const gesamtwert = aktie.anzahlAktienAnteile * aktuellerKurs;
+        return gesamtwert;
     }
 
-    getAktienPerformance(aktie){
-        this.gesamtwertAlt = aktie.anzahlAktienAnteile * aktie.buyInKurs;
+    getAktienPerformance(aktie, aktuellerKurs) {
+        const gesamtwertAlt = aktie.anzahlAktienAnteile * aktie.buyInKurs;
+        const gesamtwertNeu = aktie.anzahlAktienAnteile * aktuellerKurs;
 
-        this.performance = (1 * this.gesamtwert) / this.gesamtwertAlt;
-
-        return this.performance;
+        const performance = ((gesamtwertNeu / gesamtwertAlt) - 1) * 100;
+        return performance.toFixed(2); 
     }
 
-    getAktienRendite(aktie){
-        this.rendite = this.gesamtwert - this.gesamtwertAlt;
-
-        return this.rendite;
+    getAktienRendite(aktie, aktuellerKurs) {
+        const gesamtwertAlt = aktie.anzahlAktienAnteile * aktie.buyInKurs;
+        const rendite = (aktuellerKurs * aktie.anzahlAktienAnteile) - gesamtwertAlt;
+        return rendite.toFixed(2);
     }
-
 }
 
 export default PortfolioAktienDaten;
