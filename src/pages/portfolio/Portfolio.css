@@ -1,51 +1,6 @@
-:root {
-    --background-color: #f8f8f8;
-}
 
-.bodyPortfolio{
-    display: flex;
-    flex-direction: column;
-    padding: 30px;
-    width: 1000px;
-    justify-self: center;
-}
-
-/*Gesamtwert*/
 #gesamtwertAusgabe{
     font-size: 50px;
-    color: green;
     padding: 0;
     margin: 0;
 }
-
-/*Portfolio*/
-.aktienUebersicht{
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-
-.portfolio-aktien-tabelle {
-    background-color: var(--background-color);
-    padding: 8px 10px;
-    width: 100%;
-}
-
-.portfolio-aktien-tabelle th,
-.portfolio-aktien-tabelle td {
-    text-align: left;
-    padding: 8px;
-}
-
-.portfolio-aktien-tabelle tr:hover {
-    background-color: #f0f0f0;
-}
-
-.positive-performance {
-    color: green;
-}
-
-.negative-performance {
-    color: red;
-}
-

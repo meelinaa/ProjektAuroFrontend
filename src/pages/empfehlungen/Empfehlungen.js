@@ -1,5 +1,7 @@
 import React from 'react'
 import './Empfehlungen.css';
+import '../style/Style.css';
+
 
 
 export default function Empfehlungen() {
@@ -26,8 +28,6 @@ export default function Empfehlungen() {
         { name: 'Toyota', ticker: 'TM' }
     ];
     
-    
-
     function navigateToAktie(ticker) {
         window.location.href = `/aktie/${ticker}`;
     }
@@ -36,42 +36,42 @@ export default function Empfehlungen() {
     const next10Aktien = empfohleneAktien.slice(10, 20); 
 
 return (
-    <div className="empfehlungen-body">
-        <h2>Empfehlungen</h2>
+    <div className="body-content">
+        <h2 id="h-titel">Empfehlungen</h2>
         <div className="empfohlene-aktien">
-        <table className="empfohlene-aktien-tabelle">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Ticker</th>
-                </tr>
-            </thead>
-            <tbody>
-                {first10Aktien.map((aktie, index) => (
-                    <tr key={index} onClick={() => navigateToAktie(aktie.ticker)}>
-                        <td>{aktie.name}</td>
-                        <td>{aktie.ticker}</td>
+            <table className="tabelle">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Ticker</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {first10Aktien.map((aktie, index) => (
+                        <tr key={index} onClick={() => navigateToAktie(aktie.ticker)}>
+                            <td>{aktie.name}</td>
+                            <td>{aktie.ticker}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
 
-        <table className="empfohlene-aktien-tabelle">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Ticker</th>
-                </tr>
-            </thead>
-            <tbody>
-                {next10Aktien.map((aktie, index) => (
-                    <tr key={index + 10} onClick={() => navigateToAktie(aktie.ticker)}>
-                        <td>{aktie.name}</td>
-                        <td>{aktie.ticker}</td>
+            <table className="tabelle">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Ticker</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {next10Aktien.map((aktie, index) => (
+                        <tr key={index + 10} onClick={() => navigateToAktie(aktie.ticker)}>
+                            <td>{aktie.name}</td>
+                            <td>{aktie.ticker}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
         
     </div>

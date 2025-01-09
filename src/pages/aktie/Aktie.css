@@ -1,13 +1,11 @@
 :root {
     --background-color: #f8f8f8;
-}
-
-.body-aktie{
-    display: flex;
-    flex-direction: column;
-    padding: 30px;
-    max-width: 1000px;
-    justify-self: center;
+    --hover-color: #f0f0f0;
+    --white: #fff;
+    --shadow: rgb(166, 166, 166);
+    --black: #000;
+    --gray: #868686;
+    --text-gray: #A8A8A8;
 }
 
 /*SUCHE*/
@@ -34,51 +32,10 @@
     font-size: 18px;
     padding: 8px;
     border-radius: 4px;
-    border: 1px solid black;
-}
-
-.order-btn{
-    margin-top: 30px;
-}
-
-.order-btns{
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-}
-
-.suche-aktie form button, .order-btn{
-    font-family: "Poppins", serif;
-    font-size: 16px;
-    color: white;
-    background-color: black;
-    border: none;
-    padding: 4px 10px;
-    border-radius: 4px;
-    height: 40px;
-}
-
-.suche-aktie form button:hover, .order-btn:hover{
-    color: black;
-    background-color: white;
-    border: 1px solid black;
+    border: 1px solid var(--black);
 }
 
 /*AKTIENAUSGABE*/
-.positive-change {
-    color: green;
-}
-  
-.negative-change {
-    color: red;
-}
-  
-.aktien-ausgabe{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
 .aktien-kurse{
     display: flex;
     flex-direction: column;
@@ -88,25 +45,19 @@
     padding: 8px 16px;
 }
 
-.aktueller-kurs{
-    background-color: var(--background-color);
-}
-
-
 .aktien-kurse-top{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     width: 100%;
-    height: fit-content;
-}
-
-
-.aktien-kurse-links{
-    width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 20px;
+}
+
+/*BTNS*/
+.order-btns{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
 }
 
 .kurse{
@@ -118,82 +69,49 @@
 }
 
 .market-price{
-    color: black;
+    color: var(--black);
     font-size: 30px;
     font-weight: 500;
-    padding: 0;
-    margin: 0;
 }
 
 .market-change-percent{
     font-size: 14px;
-    padding: 0;
-    margin: 0;
     font-weight: bold;
 }
 
 /*Deine Position*/
 .deine-position{
     width: 100%;
-}
-
-
-.deine-position {
-    margin-top: 20px;
-}
-  
-.deine-position {
     margin-top: 20px;
 }
 
-.deine-position table {
+.position-tabelle{
     width: 100%;
-    border-collapse: collapse; 
-    table-layout: fixed; 
-}
-  
-.deine-position th {
+    text-align: left; 
+}  
+
+.position-tabelle th {
     font-weight: bold;
-    text-align: left; 
-    color: black; 
-    padding: 10px;
+    color: var(--black); 
 }
   
-.deine-position td {
-    text-align: left; 
-    padding: 8px;
+.position-tabelle td {
     font-weight: 500;
+    padding: 8px 0px;
 }
 
 .neutral{
-    color: #616161;
+    color: var(--gray);
 }
 
-
-
-/*Chart*/
-.aktien-kurse-rechts{
-    width: auto;
-    height: 250px; 
-    overflow: hidden;
-}
-
-.aktien-kurse-rechts img {
-    width: 100%; 
-    height: 100%; 
-    display: block; 
-}
-
-
-/*INFOS*/
-.aktien-infos {
+/*Marktdaten und Co.*/
+.markt {
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     background-color: var(--background-color);
     padding: 8px 16px;
-
 }
 
 .markt-daten {
@@ -223,9 +141,5 @@
 
 .markt-daten table td:last-child {
     text-align: right;
-    color: rgb(43, 43, 43);
-}
-  
-.order-btn{
-    width: fit-content;
+    color: var(--gray);
 }

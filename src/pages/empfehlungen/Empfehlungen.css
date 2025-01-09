@@ -1,13 +1,5 @@
-:root {
-    --background-color: #f8f8f8;
-}
 
-.empfehlungen-body {
-    display: flex;
-    flex-direction: column;
-    justify-self: center;
-    margin-top: 30px;
-}
+
 
 .empfohlene-aktien {
     display: flex;
@@ -16,18 +8,3 @@
     gap: 24px;
 }
 
-.empfohlene-aktien-tabelle {
-    background-color: var(--background-color);
-    padding: 8px 10px;
-    width: 100%;
-}
-
-.empfohlene-aktien-tabelle th,
-.empfohlene-aktien-tabelle td {
-    text-align: left;
-    padding: 8px;
-}
-
-.empfohlene-aktien-tabelle tr:hover {
-    background-color: #f0f0f0;
-}

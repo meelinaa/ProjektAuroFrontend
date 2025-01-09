@@ -1,10 +1,11 @@
 import React, { use, useEffect, useState } from 'react';
 
 import './Order.css';
+import '../style/Style.css';
+
 import {  useNavigate, useParams } from 'react-router-dom';
 import OrderFetch from './OrderFetch';
 import KontoFetch from '../konto/KontoFetch';
-
 
 export default function Order() {
   const {liveKurs: urlLiveKurs} = useParams();
@@ -12,10 +13,10 @@ export default function Order() {
   const {orderType: urlOrderType} = useParams();
   const {companyName: urlCompanyName} = useParams();
 
-  const [liveKurs, setLiveKurs] = useState(urlLiveKurs);
-  const [ticker, setTicker] = useState(urlTicker);
-  const [orderType, setOrderType] = useState(urlOrderType);
-  const [companyName, setCompanyName] = useState(urlCompanyName);
+  const liveKurs = urlLiveKurs;
+  const ticker = urlTicker;
+  const orderType = urlOrderType;
+  const companyName = urlCompanyName;
 
   const [guthaben, setGuthaben] = useState(null);
   const [input, setInput] = useState("");
@@ -48,10 +49,10 @@ export default function Order() {
     const value = e.target.value;
 
     if (isNaN(value) || value === "") {
-        setInput(0);
-        setGesamtWert(0);
-        setInputIstGroeserAlsGuthaben(false);
-        return;
+      setInput(0);
+      setGesamtWert(0);
+      setInputIstGroeserAlsGuthaben(false);
+      return;
     }
 
     const inputValue = parseFloat(value);
@@ -98,51 +99,45 @@ export default function Order() {
     openBestaetigung();
   }
 
-  
   return (
-      <div className="body-order">
+    <div className="body-content">
 
       {!aufWeiterGeklickt ? (
-
-        <div className="order-card hide" >
-          <div className="order-top">
-            <div className="order-top-infos">
-              <h1>{orderType === "buy" ? "Kaufen" : "Verkaufen"}</h1>
-            </div>
-            <p className='order-verfuegbar'>{guthaben} $ verfügbar</p>
+        <div className="card" >
+          <div className="card-top">
+              <div className="card-top-infos">
+                <h1>{orderType === "buy" ? "Kaufen" : "Verkaufen"}</h1>
+              </div>
+              <p id="gray-text">{guthaben} $ verfügbar</p>
           </div>
-
-          <div className="order-middle">
-            <div className="middle-value">
-              <input type="text" name="anteileInput" id="anteileInput" placeholder="Anteile" onInput={handleInput}/>
-              <p id="gesamtWertAusgabe">Gesamt: {gesamtWert} $</p>
-              {/* Fehlermeldung Hinzufügen, dass wenn der gewünschte Betrag größer als das Guthaben ist */}
-              <p id="gesamtWertAusgabe">{inputIstGroeserAlsGuthaben ? "Nicht genug Guthaben!": " "}</p>
-            </div>
+          <div className="card-middle">
+            <input type="text" name="anteileInput" id="anteileInput" placeholder="Anteile" onInput={handleInput}/>
+            <p id="gray-text">Gesamt: {gesamtWert} $</p>
+            {/* Fehlermeldung Hinzufügen, dass wenn der gewünschte Betrag größer als das Guthaben ist */}
+            <p id="gray-text">{inputIstGroeserAlsGuthaben ? "Nicht genug Guthaben!": ""}</p>
           </div>
-
-          <div className="order-bottom ">
-            <select name="inputType" id="inputType" onChange={handleInputTypes}>
+          <div className="card-bottom">
+            <select name="inputType" className="btn" onChange={handleInputTypes}>
               <option value="anteile">Anteile</option>
               <option value="geldWert">Geld</option>
             </select>
-            <button   className={` ${input === "" ? "btn-disabled" : "nextBtn"} ${inputIstGroeserAlsGuthaben ? "btn-disabled" : "nextBtn"}`} onClick={openUebersicht}>Weiter ❯</button>
+            <button className={`${input === "" ? "btn-disabled" : "btn"} ${inputIstGroeserAlsGuthaben ? "btn-disabled" : "btn"}`} onClick={openUebersicht}>Weiter ❯</button>
           </div>
         </div>
 
       ) : (
+
         <>
         {!aufBestaetigenGeklickt ? (
-          <div className="order-card">
-          <div className="order-top">
-            <div className="order-top-infos">
-              <h1>Übersicht</h1>
+          <div className="card">
+            <div className="card-top">
+              <div className="order-top-infos">
+                <h1>{orderType === "buy" ? "Kaufen" : "Verkaufen"}</h1>
+              </div>
             </div>
-          </div>
 
-          <div className="order-middle">
-            <div className="order-infos">
-              <table className='order-uebersicht-tab'>
+            <div className="card-middle">
+              <table className="basic-tabelle">
                 <tbody>
                   <tr>
                     <td>Name:</td>
@@ -166,19 +161,20 @@ export default function Order() {
                   </tr>
                 </tbody>
               </table>
-              
+
+              <h3>Gesamtbetrag: {gesamtWert} $</h3>
+
             </div>
-            <h3>Gesamtbetrag: {gesamtWert} $</h3>
-            
+            <div className="card-bottom">
+              <button className="btn" onClick={openUebersicht}>❮ Zurück</button>
+              <button className="btn" onClick={() => transaktionStarten()}>Bestätigen</button>
+            </div>
           </div>
-          <div className="order-bottom uebersicht-btn">
-            <button className='nextBtn ' onClick={openUebersicht}>❮ Zurück</button>
-            <button className='nextBtn ' onClick={() => transaktionStarten()}>Bestätigen</button>
-          </div>
-        </div>
-        ): (
-          <div className="order-card">
-            <div className="order-top">
+
+        ) : (
+
+          <div className="card">
+            <div className="card-top">
               <div className="order-top-infos">
                 <h1>Bestätigung</h1>
               </div>
@@ -186,35 +182,29 @@ export default function Order() {
 
             {isTransaktionFehlgeschlagen ? (
               <>
-                <div className="order-middle">
+                <div className="card-middle">
                   <p>Die Transaktion ist fehlgeschlagen. Versuche es bitte erneut.</p>
                 </div>
-                <div className="order-bottom">
-                  <button className='nextBtn ' onClick={() => openAktie(ticker)}>Fertig</button>
+                <div className="card-bottom">
+                  <button className="btn" onClick={() => openAktie(ticker)}>Fertig</button>
                 </div>
               </>
+
             ) : (
+
               <>
-                <div className="order-middle">
+                <div className="card-middle">
                   <p>Du hast {input} Aktie(n) für {gesamtWert} $ {orderType === "buy" ? "gekauft" : "verkauft"} ! </p>
                 </div>
-
-                <div className="order-bottom">
-                  <button className='nextBtn ' onClick={openPortfolio}>Fertig</button>
+                <div className="card-bottom">
+                  <button className="btn" onClick={openPortfolio}>Fertig</button>
                 </div>
               </>
-              
             )}
-
-            
           </div>
         )}
         </>
-        
-  
-        
       )}
-      </div>
-    
+    </div>
   )
 }

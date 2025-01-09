@@ -5,12 +5,10 @@ import PortfolioAktienDaten from './PortfolioAktienDaten';
 
 import Empfehlungen from '../empfehlungen/Empfehlungen';
 
-
 import './Portfolio.css';
+import '../style/Style.css';
+
 import { useNavigate } from 'react-router-dom';
-import Transaktionen from '../transaktionen/Transaktionen';
-
-
 
 export default function Portfolio() {
     const [portfolioAktien, setPortfolioAktien] = useState(null);
@@ -22,7 +20,6 @@ export default function Portfolio() {
 
     const navigate = useNavigate();
 
-    // Portfolio Übersicht
     useEffect(() => {
         async function fetchAktien() {
             try {
@@ -38,7 +35,7 @@ export default function Portfolio() {
 
                 setLiveDaten(liveDataArray);
             } catch (error) {
-                console.error('Fehler beim Abrufen der Aktien:', error.message);
+                console.error("Fehler beim Abrufen der Aktien: ", error.message);
                 setError(error.message);
             }
         }
@@ -51,26 +48,26 @@ export default function Portfolio() {
 
     function getLiveKursForAktie(aktieId) {
         const liveKursObj = liveDaten?.find((data) => data.id === aktieId);
-        return liveKursObj?.kurs || '-';
+        return liveKursObj?.kurs || "-";
     }
 
     function gesamtwertBerechnen(aktie) {
         const aktuellerKurs = getLiveKursForAktie(aktie.id);
-        if (aktuellerKurs === '-') return '-';
+        if (aktuellerKurs === "-") return "-";
         const gesamtWert = aktie.anzahlAktienAnteile * aktuellerKurs;
         return gesamtWert.toFixed(2); 
     }
     
     function performanceBerechnen(aktie) {
       const aktuellerKurs = getLiveKursForAktie(aktie.id);
-      if (aktuellerKurs === '-') return '-';
+      if (aktuellerKurs === "-") return "-";
   
       const gesamtwertAlt = aktie.buyInKurs * aktie.anzahlAktienAnteile;
       const gesamtwertNeu = aktuellerKurs * aktie.anzahlAktienAnteile;
   
       const performanceProzent = ((gesamtwertNeu / gesamtwertAlt) - 1) * 100;
 
-      const className = performanceProzent > 0 ? 'positive-performance' : 'negative-performance';
+      const className = performanceProzent > 0 ? "positive-change" : "negative-change";
 
       return {
           valueOf: `${performanceProzent > 0 ? '+' : ' '}${performanceProzent.toFixed(2)}%`,
@@ -80,10 +77,10 @@ export default function Portfolio() {
 
     function renditeBerechnen(aktie) {
         const aktuellerKurs = getLiveKursForAktie(aktie.id);
-        if (aktuellerKurs === '-') return '-';
+        if (aktuellerKurs === "-") return "-";
         const gesamtwertAlt = aktie.buyInKurs * aktie.anzahlAktienAnteile;
         const rendite = (aktuellerKurs * aktie.anzahlAktienAnteile - gesamtwertAlt).toFixed(2);
-        const className = rendite > 0 ? 'positive-performance' : 'negative-performance';
+        const className = rendite > 0 ? "positive-change" : "negative-change";
         return {
             valueOf: rendite,
             className: className,
@@ -98,68 +95,67 @@ export default function Portfolio() {
         if (!portfolioAktien || !liveDaten) return 0;
         return portfolioAktien.reduce((gesamtwert, aktie) => {
             const liveKurs = getLiveKursForAktie(aktie.id);
-            if (liveKurs === '-') return gesamtwert; 
+            if (liveKurs === "-") return gesamtwert; 
             return gesamtwert + aktie.anzahlAktienAnteile * liveKurs;
         }, 0);
     }
     
-
-    // Ausgabe
     return (
-        <div className="bodyPortfolio">
-            <h1>Willkommen</h1>
+        <div className="body-content">
+            <h1 id="h-titel">Willkommen</h1>
 
             <div className="portfolioGesamtwert">
-                <h2>Gesamtwert</h2>
-                <h1 id="gesamtwertAusgabe">{berechneGesamtwertPortfolio().toFixed(2)} $</h1>
+                <h2 id="h-titel" >Gesamtwert</h2>
+                <h1 id="gesamtwertAusgabe"
+                    className={berechneGesamtwertPortfolio() > 0 ? "positive-change": berechneGesamtwertPortfolio() < 0 ? "negative-change": ""}>
+                  {berechneGesamtwertPortfolio().toFixed(2)} $
+                </h1>            
             </div>
 
+            <h2 id="h-titel">Dein Portfolio</h2>
 
-            <div className="aktienUebersicht">
-                <h2>Dein Portfolio</h2>
-                <table className='portfolio-aktien-tabelle'>
-                    <thead>
-                        <tr>
-                            <th>Aktie</th>
-                            <th>Kurs</th>
-                            <th>Gesamtwert</th>
-                            <th>Performance</th>
-                            <th>Rendite</th>
-                            <th>Buy In</th>
-                            <th>Anteile</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {portfolioAktien ? ( Array.isArray(portfolioAktien) &&
-                            portfolioAktien.map((aktie) => (
-                                <tr key={aktie.id} onClick={() => navigateToAktie(aktie.id)}>
-                                    <td>{aktie.id}</td>
-                                    <td>{getLiveKursForAktie(aktie.id)} $</td>
-                                    <td>{gesamtwertBerechnen(aktie)} $</td>
-                                    <td className={performanceBerechnen(aktie).className}>
-                                        {performanceBerechnen(aktie).valueOf}
-                                    </td>                                    
-                                    <td className={performanceBerechnen(aktie).className}>
-                                        {renditeBerechnen(aktie).valueOf} $
-                                    </td>
-                                    <td>{aktie.buyInKurs} $</td>
-                                    <td>{aktie.anzahlAktienAnteile}</td>
-                                </tr>
-                            ))) : (
-                                <tr>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                </tr>
-                            )}
-                    </tbody>
-                </table>
-            </div>
-
+            <table className="tabelle">
+                <thead>
+                    <tr>
+                        <th>Aktie</th>
+                        <th>Kurs</th>
+                        <th>Gesamtwert</th>
+                        <th>Performance</th>
+                        <th>Rendite</th>
+                        <th>Buy In</th>
+                        <th>Anteile</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {portfolioAktien ? ( Array.isArray(portfolioAktien) &&
+                        portfolioAktien.map((aktie) => (
+                            <tr key={aktie.id} onClick={() => navigateToAktie(aktie.id)}>
+                                <td>{aktie.id}</td>
+                                <td>{getLiveKursForAktie(aktie.id)} $</td>
+                                <td>{gesamtwertBerechnen(aktie)} $</td>
+                                <td className={performanceBerechnen(aktie).className}>
+                                    {performanceBerechnen(aktie).valueOf}
+                                </td>                                    
+                                <td className={performanceBerechnen(aktie).className}>
+                                    {renditeBerechnen(aktie).valueOf} $
+                                </td>
+                                <td>{(aktie.buyInKurs).toFixed(2)} $</td>
+                                <td>{aktie.anzahlAktienAnteile}</td>
+                            </tr>
+                        ))) : (
+                            <tr>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                            </tr>
+                        )}
+                </tbody>
+            </table>
+            
             <Empfehlungen/>
         </div>
     );

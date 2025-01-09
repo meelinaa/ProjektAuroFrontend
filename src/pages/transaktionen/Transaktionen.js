@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 import TransaktionenFetch from './TransaktionenFetch';
-import './Transaktionen.css';
+import '../style/Style.css';
+
 
 
 export default function Transaktionen() {
@@ -48,7 +48,7 @@ export default function Transaktionen() {
                 const transaktionen = await transaktionenFetch.getAlleTransaktionen();
                 setAlleTransaktionen(transaktionen);
             } catch (error) {
-                console.log('Fehler beim Abrufen der Transaktionen', error.message);
+                console.log("Fehler beim Abrufen der Transaktionen", error.message);
                 setError(error.message);
             }
         }
@@ -66,97 +66,92 @@ export default function Transaktionen() {
             timeStyle: 'short'
         }).format(date);
     }
-    
-    
 
-  return (
-    <div className="transaktionen-body">
-        <h1>Deine Transaktionen</h1>
-
-        <div className="transaktionenUebersicht">
-            <table className='transaktionen-tabelle'>
-                <thead>
-                    <tr>
-                        <th>Order Typ</th>
-                        <th>Aktien Name</th>
-                        <th>Datum</th>
-                        <th>Buy / Sell Kurs</th>
-                        <th>Anteile</th>
-                        <th>Gesamtwert</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {/*RICHTIGE NAMEN HINZUFÜGEN*/}
-                    {alleTransaktionen ? (Array.isArray(alleTransaktionen) && 
-                        alleTransaktionen.map((transaktion) => (
-                            <tr key={transaktion.id} onClick={() => openInfos(transaktion)}>
-                                <td className={` ${transaktion.orderType === "buy" ? "positive-performance" : "negative-performance"}`}>{transaktion.orderType}</td>
-                                <td>{transaktion.aktienName}</td>
-                                <td>{formatDate(transaktion.orderDateAndTime)}</td>
-                                <td>{(transaktion.buySellKurs).toFixed(2)} $</td>
-                                <td>{transaktion.aktie_anteile}</td>
-                                <td>{gesamtwert(transaktion.buySellKurs, transaktion.aktie_anteile)} $</td>
-                            </tr>
-
-                        ))) : (
-                            <tr>
-                                <td>--</td>
-                                <td>--</td>
-                                <td>--</td>
-                                <td>--</td>
-                                <td>--</td>
-                                <td>--</td>
-                                <td>--</td>
-                            </tr>  
+    return (
+        <div className="body-content">
+            <h1>Deine Transaktionen</h1>
+        
+            <div className="basic-div">
+                <table className="tabelle">
+                    <thead>
+                        <tr>
+                            <th>Order Typ</th>
+                            <th>Aktien Name</th>
+                            <th>Datum</th>
+                            <th>Buy / Sell Kurs</th>
+                            <th>Anteile</th>
+                            <th>Gesamtwert</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {alleTransaktionen ? (Array.isArray(alleTransaktionen) && alleTransaktionen.map((transaktion) => (
+                                <tr key={transaktion.id} onClick={() => openInfos(transaktion)}>
+                                    <td className={` ${transaktion.orderType === "buy" ? "positive-change" : "negative-change"}`}>{transaktion.orderType}</td>
+                                    <td>{transaktion.aktienName}</td>
+                                    <td>{formatDate(transaktion.orderDateAndTime)}</td>
+                                    <td>{(transaktion.buySellKurs).toFixed(2)} $</td>
+                                    <td>{transaktion.aktie_anteile}</td>
+                                    <td>{gesamtwert(transaktion.buySellKurs, transaktion.aktie_anteile)} $</td>
+                                </tr>
+                            ))) : (
+                                <tr>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                    <td>--</td>
+                                </tr>  
                         )}
-                </tbody>
-            </table>
-        </div>
-
-        {infosAreShown ? (
-            <div className='info-card'>
-                <div className="info-card-top">
-                    <h2>Info</h2>
-                    <button onClick={() => closeInfos()}>X</button>
-                </div>
-
-                <div className="info-card-middle">
-                    <table className="info-card-tabelle">
-                        <tbody>
-                            <tr>
-                                <td>Order Type:</td>
-                                <td>{transaktionOrderType}</td>
-                            </tr>
-                            <tr>
-                                <td>Aktie:</td>
-                                <td>{transaktionAktienName}</td>
-                            </tr>
-                            <tr>
-                                <td>Datum:</td>
-                                <td>{formatDate(transaktionDate)}</td>
-                            </tr>
-                            <tr>
-                                <td>Buy/Sell Kurs:</td>
-                                <td>{transaktionKurs} $</td>
-                            </tr>
-                            <tr>
-                                <td>Anteile:</td>
-                                <td>{transaktionAnteile}</td>
-                            </tr>
-                            <tr>
-                                <td>Gesamtwert:</td>
-                                <td>{transaktionGesamtwert} $</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div className="info-card-bottom">
-                </div>
+                    </tbody>
+                </table>
             </div>
-        ):(
-            <div></div>
-        )}
-    </div>
-  )
+                          
+            {infosAreShown ? (
+                <div className="card fixed-card">
+                    <div className="card-top">
+                        <h2>Info</h2>
+                        <button className="btn" onClick={() => closeInfos()}>X</button>
+                    </div>
+
+                    <div className="card-middle">
+                        <table className="basic-tabelle">
+                            <tbody>
+                                <tr>
+                                    <td>Order Type:</td>
+                                    <td>{transaktionOrderType}</td>
+                                </tr>
+                                <tr>
+                                    <td>Aktie:</td>
+                                    <td>{transaktionAktienName}</td>
+                                </tr>
+                                <tr>
+                                    <td>Datum:</td>
+                                    <td>{formatDate(transaktionDate)}</td>
+                                </tr>
+                                <tr>
+                                    <td>Buy/Sell Kurs:</td>
+                                    <td>{transaktionKurs} $</td>
+                                </tr>
+                                <tr>
+                                    <td>Anteile:</td>
+                                    <td>{transaktionAnteile}</td>
+                                </tr>
+                                <tr>
+                                    <td>Gesamtwert:</td>
+                                    <td>{transaktionGesamtwert} $</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div className="card-bottom">
+                    </div>
+                </div>
+            ):(
+                <></>
+            )}
+        </div>
+    )
 }
