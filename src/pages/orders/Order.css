@@ -12,3 +12,17 @@
     margin-bottom: 8px;
     padding: 8px;
 }
+
+.card-top-infos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.card-top-order{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}

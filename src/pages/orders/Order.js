@@ -20,7 +20,7 @@ export default function Order() {
 
   const [guthaben, setGuthaben] = useState(0);
   const [input, setInput] = useState("");
-  const [gesamtWert, setGesamtWert] = useState(null);
+  const [gesamtWert, setGesamtWert] = useState(0);
   const [anteile, setAnteile] = useState(null);
   
   const [inputType, setInputType] = useState("anteile");
@@ -57,8 +57,6 @@ export default function Order() {
     console.log("Guthaben:", guthaben);
     setInputIstGroeserAlsGuthaben(gesamtWert > guthaben);
   }, [gesamtWert, guthaben]);
-  
-  
  
   const handleInput = (e) => {
     const value = e.target.value;
@@ -74,9 +72,6 @@ export default function Order() {
     setInput(inputValue);
 
     berechneWert(inputValue);
-  
-    console.log("gesamtwert: " + gesamtWert + " guthaben: " + guthaben)
-    console.log(inputIstGroeserAlsGuthaben);
   };
 
   function berechneWert(inputValue) {
@@ -121,20 +116,31 @@ export default function Order() {
     openBestaetigung();
   }
 
+  function navBack(ticker) {
+    navigate(`/aktie/${ticker}`);
+  }
+
   return (
     <div className="body-content">
 
       {/* Order Input */}
       {!aufWeiterGeklickt ? (
         <div className="card" >
-          <div className="card-top">
+          <div className="card-top-order">
               <div className="card-top-infos">
                 <h1>{orderType === "buy" ? "Kaufen" : "Verkaufen"}</h1>
+                <button className="btn" onClick={() => navBack(ticker)}>X</button>
               </div>
               <p id="gray-text">{guthaben} $ verfügbar</p>
           </div>
           <div className="card-middle">
-            <input type="text" name="anteileInput" id="anteileInput" placeholder={inputType === "anteile" ? "Anteile" : "Betrag"} onChange={handleInput}/>
+            <input 
+              type="text" 
+              name="anteileInput" 
+              id="anteileInput" 
+              placeholder={inputType === "anteile" ? "Anteile" : "Betrag"} 
+              onChange={handleInput}  
+            />
             <p id="gray-text">Gesamt: {gesamtWert} $</p>
             <p id="gray-text">{inputIstGroeserAlsGuthaben ? "Nicht genug Guthaben!": ""}</p>
           </div>
@@ -143,7 +149,12 @@ export default function Order() {
               <option value="anteile">Anteile</option>
               <option value="betrag">Betrag</option>
             </select>
-            <button className={`${input === "" ? "btn-disabled" : "btn"} ${inputIstGroeserAlsGuthaben ? "btn-disabled" : "btn"}`} onClick={openUebersicht}>Weiter ❯</button>
+            <button 
+              className={`${input === "" ? "btn-disabled" : "btn"} ${inputIstGroeserAlsGuthaben ? "btn-disabled" : "btn"}`} 
+              onClick={openUebersicht} 
+              disabled={input === "" || inputIstGroeserAlsGuthaben}>
+                Weiter ❯
+            </button>
           </div>
         </div>
 
@@ -155,7 +166,7 @@ export default function Order() {
           <div className="card">
             <div className="card-top">
               <div className="order-top-infos">
-                <h1>{orderType === "buy" ? "Kaufen" : "Verkaufen"}</h1>
+                <h1>{orderType === "buy" ? "Kaufen" : "Verkaufen"}</h1>             
               </div>
             </div>
 
