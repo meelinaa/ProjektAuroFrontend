@@ -2,8 +2,6 @@ import React from 'react'
 import './Empfehlungen.css';
 import '../style/Style.css';
 
-
-
 export default function Empfehlungen() {
     const empfohleneAktien = [
         { name: 'Tesla', ticker: 'TSLA' },
@@ -35,10 +33,8 @@ export default function Empfehlungen() {
     const first10Aktien = empfohleneAktien.slice(0, 10); 
     const next10Aktien = empfohleneAktien.slice(10, 20); 
 
-return (
-    <div className="body-content">
-        <h2 id="h-titel">Empfehlungen</h2>
-        <div className="empfohlene-aktien">
+    function AktienTable({ aktien }) {
+        return (
             <table className="tabelle">
                 <thead>
                     <tr>
@@ -47,7 +43,7 @@ return (
                     </tr>
                 </thead>
                 <tbody>
-                    {first10Aktien.map((aktie, index) => (
+                    {aktien.map((aktie, index) => (
                         <tr key={index} onClick={() => navigateToAktie(aktie.ticker)}>
                             <td>{aktie.name}</td>
                             <td>{aktie.ticker}</td>
@@ -55,26 +51,17 @@ return (
                     ))}
                 </tbody>
             </table>
-
-            <table className="tabelle">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Ticker</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {next10Aktien.map((aktie, index) => (
-                        <tr key={index + 10} onClick={() => navigateToAktie(aktie.ticker)}>
-                            <td>{aktie.name}</td>
-                            <td>{aktie.ticker}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+        );
+    }
+    
+    return (
+        <div className="body-content">
+            <h2 id="h-titel">Empfehlungen</h2>
+            <div className="empfohlene-aktien">
+                <AktienTable aktien={first10Aktien} />
+                <AktienTable aktien={next10Aktien} />
+            </div> 
         </div>
-        
-    </div>
-);
+    );
 
 }

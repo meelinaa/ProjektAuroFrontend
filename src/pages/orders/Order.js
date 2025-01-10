@@ -114,7 +114,7 @@ export default function Order() {
             <input type="text" name="anteileInput" id="anteileInput" placeholder="Anteile" onInput={handleInput}/>
             <p id="gray-text">Gesamt: {gesamtWert} $</p>
             {/* Fehlermeldung Hinzufügen, dass wenn der gewünschte Betrag größer als das Guthaben ist */}
-            <p id="gray-text">{inputIstGroeserAlsGuthaben ? "Nicht genug Guthaben!": ""}</p>
+            <p id="gray-text">{inputIstGroeserAlsGuthaben ? "Nicht genug Guthaben!": "ew"}</p>
           </div>
           <div className="card-bottom">
             <select name="inputType" className="btn" onChange={handleInputTypes}>

@@ -14,6 +14,7 @@ export default function Portfolio() {
     const [portfolioAktien, setPortfolioAktien] = useState(null);
     const [liveDaten, setLiveDaten] = useState(null);
     const [error, setError] = useState(null);
+    
 
     const portfolioFetch = new PortfolioFetch();
     const portfolioAktienDaten = new PortfolioAktienDaten();
@@ -58,34 +59,25 @@ export default function Portfolio() {
         return gesamtWert.toFixed(2); 
     }
     
-    function performanceBerechnen(aktie) {
-      const aktuellerKurs = getLiveKursForAktie(aktie.id);
-      if (aktuellerKurs === "-") return "-";
-  
-      const gesamtwertAlt = aktie.buyInKurs * aktie.anzahlAktienAnteile;
-      const gesamtwertNeu = aktuellerKurs * aktie.anzahlAktienAnteile;
-  
-      const performanceProzent = ((gesamtwertNeu / gesamtwertAlt) - 1) * 100;
-
-      const className = performanceProzent > 0 ? "positive-change" : "negative-change";
-
-      return {
-          valueOf: `${performanceProzent > 0 ? '+' : ' '}${performanceProzent.toFixed(2)}%`,
-          className: className,
-      };
-    }
-
-    function renditeBerechnen(aktie) {
+    function berechneWert(aktie, type) {
         const aktuellerKurs = getLiveKursForAktie(aktie.id);
-        if (aktuellerKurs === "-") return "-";
+        if (aktuellerKurs === "-") return { valueOf: "-", className: "" };
+    
         const gesamtwertAlt = aktie.buyInKurs * aktie.anzahlAktienAnteile;
-        const rendite = (aktuellerKurs * aktie.anzahlAktienAnteile - gesamtwertAlt).toFixed(2);
-        const className = rendite > 0 ? "positive-change" : "negative-change";
-        return {
-            valueOf: rendite,
-            className: className,
-        };
+        const gesamtwertNeu = aktuellerKurs * aktie.anzahlAktienAnteile;
+    
+        let wert, className;
+        if (type === "rendite") {
+            wert = gesamtwertNeu - gesamtwertAlt;
+            className = wert > 0 ? "positive-change" : "negative-change";
+        } else if (type === "performance") {
+            wert = ((gesamtwertNeu / gesamtwertAlt) - 1) * 100;
+            className = wert > 0 ? "positive-change" : "negative-change";
+        }
+    
+        return { valueOf: wert.toFixed(2), className };
     }
+    
 
     function navigateToAktie(ticker){
       navigate(`/aktie/${ticker}`);
@@ -99,6 +91,10 @@ export default function Portfolio() {
             return gesamtwert + aktie.anzahlAktienAnteile * liveKurs;
         }, 0);
     }
+
+    function getCssClass(value) {
+        return value > 0 ? "positive-change" : value < 0 ? "negative-change" : "";
+    }
     
     return (
         <div className="body-content">
@@ -107,7 +103,7 @@ export default function Portfolio() {
             <div className="portfolioGesamtwert">
                 <h2 id="h-titel" >Gesamtwert</h2>
                 <h1 id="gesamtwertAusgabe"
-                    className={berechneGesamtwertPortfolio() > 0 ? "positive-change": berechneGesamtwertPortfolio() < 0 ? "negative-change": ""}>
+                    className={getCssClass(berechneGesamtwertPortfolio())}>
                   {berechneGesamtwertPortfolio().toFixed(2)} $
                 </h1>            
             </div>
@@ -133,11 +129,11 @@ export default function Portfolio() {
                                 <td>{aktie.id}</td>
                                 <td>{getLiveKursForAktie(aktie.id)} $</td>
                                 <td>{gesamtwertBerechnen(aktie)} $</td>
-                                <td className={performanceBerechnen(aktie).className}>
-                                    {performanceBerechnen(aktie).valueOf}
+                                <td className={berechneWert(aktie, "performance").className}>
+                                    {berechneWert(aktie, "performance").valueOf} %
                                 </td>                                    
-                                <td className={performanceBerechnen(aktie).className}>
-                                    {renditeBerechnen(aktie).valueOf} $
+                                <td className={berechneWert(aktie, "rendite").className}>
+                                    {berechneWert(aktie, "rendite").valueOf} $
                                 </td>
                                 <td>{(aktie.buyInKurs).toFixed(2)} $</td>
                                 <td>{aktie.anzahlAktienAnteile}</td>

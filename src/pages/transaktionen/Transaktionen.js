@@ -11,36 +11,27 @@ export default function Transaktionen() {
 
     const [infosAreShown, setInfosAreShown] = useState(false);
 
-    const [transaktionOrderType, setTransaktionOrderType] = useState(null);
-    const [transaktionAktienName, setTransaktionAktienName] = useState(null);
-    const [transaktionDate, setTransaktionDate] = useState(null);
-    const [transaktionKurs, setTransaktionKurs] = useState(null);
-    const [transaktionAnteile, setTransaktionAnteile] = useState(null);
-    const [transaktionGesamtwert, setTransaktionGesamtwert] = useState(null);
+    const [transaktionDetails, setTransaktionDetails] = useState(null);
 
     const transaktionenFetch = new TransaktionenFetch();
 
-    function openInfos(transaktion){
+    function openInfos(transaktion) {
         setInfosAreShown(true);
-        
-        setTransaktionOrderType(transaktion.orderType);
-        setTransaktionAktienName(transaktion.aktienName);
-        setTransaktionDate(transaktion.orderDateAndTime);
-        setTransaktionKurs(transaktion.buySellKurs);
-        setTransaktionAnteile(transaktion.aktie_anteile);
-        setTransaktionGesamtwert(gesamtwert(transaktion.buySellKurs, transaktion.aktie_anteile));
+        setTransaktionDetails({
+            orderType: transaktion.orderType,
+            aktienName: transaktion.aktienName,
+            date: transaktion.orderDateAndTime,
+            kurs: transaktion.buySellKurs,
+            anteile: transaktion.aktie_anteile,
+            gesamtwert: gesamtwert(transaktion.buySellKurs, transaktion.aktie_anteile),
+        });
     }
 
-    function closeInfos(){
+    function closeInfos() {
         setInfosAreShown(false);
-
-        setTransaktionOrderType(null);
-        setTransaktionAktienName(null);
-        setTransaktionDate(null);
-        setTransaktionKurs(null);
-        setTransaktionAnteile(null);
-        setTransaktionGesamtwert(null);
+        setTransaktionDetails(null);
     }
+
 
     useEffect(() => {
         async function fetchTransaktionen() {
@@ -86,7 +77,7 @@ export default function Transaktionen() {
                     <tbody>
                         {alleTransaktionen ? (Array.isArray(alleTransaktionen) && alleTransaktionen.map((transaktion) => (
                                 <tr key={transaktion.id} onClick={() => openInfos(transaktion)}>
-                                    <td className={` ${transaktion.orderType === "buy" ? "positive-change" : "negative-change"}`}>{transaktion.orderType}</td>
+                                    <td className={` ${transaktion.orderType === "buy" ? "positive-change" : "negative-change"}`}>{transaktion.orderType === "buy" ? "gekauft" : "verkauft"}</td>
                                     <td>{transaktion.aktienName}</td>
                                     <td>{formatDate(transaktion.orderDateAndTime)}</td>
                                     <td>{(transaktion.buySellKurs).toFixed(2)} $</td>
@@ -120,27 +111,27 @@ export default function Transaktionen() {
                             <tbody>
                                 <tr>
                                     <td>Order Type:</td>
-                                    <td>{transaktionOrderType}</td>
+                                    <td>{transaktionDetails?.orderType}</td>
                                 </tr>
                                 <tr>
                                     <td>Aktie:</td>
-                                    <td>{transaktionAktienName}</td>
+                                    <td>{transaktionDetails?.aktienName}</td>
                                 </tr>
                                 <tr>
                                     <td>Datum:</td>
-                                    <td>{formatDate(transaktionDate)}</td>
+                                    <td>{formatDate(transaktionDetails.date)}</td>
                                 </tr>
                                 <tr>
                                     <td>Buy/Sell Kurs:</td>
-                                    <td>{transaktionKurs} $</td>
+                                    <td>{transaktionDetails.kurs} $</td>
                                 </tr>
                                 <tr>
                                     <td>Anteile:</td>
-                                    <td>{transaktionAnteile}</td>
+                                    <td>{transaktionDetails.anteile}</td>
                                 </tr>
                                 <tr>
                                     <td>Gesamtwert:</td>
-                                    <td>{transaktionGesamtwert} $</td>
+                                    <td>{transaktionDetails.gesamtwert} $</td>
                                 </tr>
                             </tbody>
                         </table>

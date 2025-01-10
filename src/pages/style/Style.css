@@ -10,7 +10,7 @@
 
 /*Main*/
 .main-body{
-    width: 1000px;
+    width: 1200px;
     display: flex;
     justify-self: center;
     align-self: center;
@@ -170,7 +170,7 @@
     width: 100%;
 }
 
-/*Farben für Börse*/
+/*Farben für Börsenänderungen*/
 .positive-change {
     color: green;
 }

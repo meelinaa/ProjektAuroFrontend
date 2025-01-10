@@ -18,14 +18,15 @@ export default function Header() {
                 </div>
         
                 <nav className="nav-menu">
-                    <NavLink to="portfolio" id="navLink">Portfolio</NavLink>
-                    <NavLink to="aktie" id="navLink">Aktie</NavLink>
-                    <NavLink to="transaktionen" id="navLink">Transaktionen</NavLink>
+                    <NavLink to="portfolio" id="nav-link">Portfolio</NavLink>
+                    <NavLink to="aktie" id="nav-link">Suche</NavLink>
                 </nav>
         
                 <div className="header-right">
                     <div className="header-konto">
-                        <img src={Konto} alt="Konto" />
+                        <NavLink to="konto">
+                            <img src={Konto} alt="Konto" />
+                        </NavLink>
                     </div>
                 </div>
             </header>

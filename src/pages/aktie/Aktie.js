@@ -96,6 +96,10 @@ export default function Aktie() {
         navigate(`/order/${liveKurs}/${ticker}/${orderType}/${companyName}`);
     }
 
+    function getCssClass(value) {
+        return value > 0 ? "positive-change" : value < 0 ? "negative-change" : "neutral";
+    }
+    
 
     if (error) {
         return <div>Fehler: {error}</div>;
@@ -110,8 +114,7 @@ export default function Aktie() {
                         type="text"
                         name="aktie-ticker"
                         id="aktie-ticker"
-                        placeholder="Aktien Ticker"
-                    />
+                        placeholder="Aktien Ticker"/>
                     <button className="btn" type="submit" onClick={() => {
                                                                         const inputValue = document.getElementById('aktie-ticker').value;
                                                                         setTicker(inputValue.toUpperCase());
@@ -127,11 +130,11 @@ export default function Aktie() {
                 <div className="aktien-kurse">
                 
                     <div className="aktien-kurse-top">
-                        <h1 className='no-padding-margin'>{infoDaten ? infoDaten.companyName : '--'}</h1>
+                        <h1 className="no-padding-margin">{infoDaten ? infoDaten.companyName : "--"}</h1>
                         <div className="kurse">
-                            <p className="market-price no-padding-margin">{liveDaten ? liveDaten.regularMarketPrice : '--'} $</p>
-                            <p className={`market-change-percent no-padding-margin ${liveDaten?.regularMarketChangePercent > 0 ? 'positive-change' : liveDaten?.regularMarketChangePercent < 0 ? 'negative-change': '' }`}>
-                                {liveDaten ? liveDaten.regularMarketChangePercent.toFixed(2) : '--'} %
+                            <p className="market-price no-padding-margin">{liveDaten ? liveDaten.regularMarketPrice : "--"} $</p>
+                            <p className={`market-change-percent no-padding-margin ${liveDaten?.regularMarketChangePercent > 0 ? "positive-change" : liveDaten?.regularMarketChangePercent < 0 ? "negative-change": "" }`}>
+                                {liveDaten ? liveDaten.regularMarketChangePercent.toFixed(2) : "--"} %
                             </p>                                
                         </div>
                         <div className="order-btns">
@@ -144,8 +147,8 @@ export default function Aktie() {
                     <div className="deine-position">
                         {deineDaten && deineDaten.buyInKurs && deineDaten.anzahlAktienAnteile ? (
                             <>
-                                <h2 id='h2-titel'>Deine Position</h2>
-                                <table className='position-tabelle'>
+                                <h2 id="h2-titel">Deine Position</h2>
+                                <table className="position-tabelle">
                                     <thead>
                                         <tr>
                                             <th>Gesamtwert</th>
@@ -157,11 +160,11 @@ export default function Aktie() {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td className='neutral'>{gesamtwertPosition ? `${gesamtwertPosition} $` : '--'}</td>
-                                            <td className={`${performancePosition > 0 ? 'positive-change' : performancePosition < 0 ? 'negative-change' : "neutral" }`}>{performancePosition ? `${performancePosition} %` : '--'}</td>
-                                            <td className={`${renditePosition > 0 ? 'positive-change' : renditePosition < 0 ? 'negative-change' : "neutral" }`}>{renditePosition ? `${renditePosition} $` : '--'}</td>
-                                            <td className='neutral'>{deineDaten.buyInKurs ? `${deineDaten.buyInKurs} $` : '--'}</td>
-                                            <td className='neutral'>{deineDaten.anzahlAktienAnteile ? deineDaten.anzahlAktienAnteile : '--'}</td>
+                                            <td className="neutral">{gesamtwertPosition ? `${gesamtwertPosition} $` : "--"}</td>
+                                            <td className={getCssClass(performancePosition)}>{performancePosition ? `${performancePosition} %` : "--"}</td>
+                                            <td className={getCssClass(renditePosition)}>{renditePosition ? `${renditePosition} $` : "--"}</td>
+                                            <td className="neutral">{deineDaten.buyInKurs ? `${deineDaten.buyInKurs.toFixed(2)} $` : "--"}</td>
+                                            <td className="neutral">{deineDaten.anzahlAktienAnteile ? deineDaten.anzahlAktienAnteile : "--"}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -180,19 +183,19 @@ export default function Aktie() {
                         <tbody>
                             <tr>
                                 <td>Tageshandelsspanne</td>
-                                <td>{infoDaten ? infoDaten.regularMarketDayRange : '--'}</td>
+                                <td>{infoDaten ? infoDaten.regularMarketDayRange : "--"}</td>
                             </tr>
                             <tr>
                                 <td>52-Wochen-Spanne</td>
-                                <td>{infoDaten ? infoDaten.fiftyTwoWeekRange : '--'}</td>
+                                <td>{infoDaten ? infoDaten.fiftyTwoWeekRange : "--"}</td>
                             </tr>
                             <tr>
                                 <td>Handelsvolumen</td>
-                                <td>{infoDaten ? infoDaten.regularMarketVolume : '--'}</td>
+                                <td>{infoDaten ? infoDaten.regularMarketVolume : "--"}</td>
                             </tr>
                             <tr>
                                 <td>Marktkapitalisierung</td>
-                                <td>{infoDaten ? infoDaten.marketCap : '--'}</td>
+                                <td>{infoDaten ? infoDaten.marketCap : "--"}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -204,11 +207,11 @@ export default function Aktie() {
                         <tbody>
                             <tr>
                                 <td>Kurs-Gewinn-Verhältnis (Trailing P/E)</td>
-                                <td>{infoDaten ? infoDaten.trailingPE : '--'}</td>
+                                <td>{infoDaten ? infoDaten.trailingPE : "--"}</td>
                             </tr>
                             <tr>
                                 <td>Zielpreis (Durchschnitt)</td>
-                                <td>{infoDaten ? infoDaten.targetMeanPrice : '--'}</td>
+                                <td>{infoDaten ? infoDaten.targetMeanPrice : "--"}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -220,7 +223,7 @@ export default function Aktie() {
                         <tbody>
                             <tr>
                                 <td>Erwartete Dividende</td>
-                                <td>{liveDaten ? (liveDaten.expectedDividend || '0,00 %') : '--'}</td>
+                                <td>{liveDaten ? (liveDaten.expectedDividend || "0,00 %") : "--"}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -228,15 +231,17 @@ export default function Aktie() {
 
             </div>
 
-            <Empfehlungen/>
 
         </div>
         </>
         ) : (
             <>
-                <h2>Bitte Aktien Ticker angeben. (Bsp.: TSLA für Tesla, NVDA für Nvidia)</h2>
+                <p>Bitte Aktien Ticker angeben. (Bsp.: TSLA für Tesla, NVDA für Nvidia)</p>
             </>
         )}
+
+        <Empfehlungen/>
+
 
     </div>
   );
