@@ -18,9 +18,10 @@ export default function Order() {
   const orderType = urlOrderType;
   const companyName = urlCompanyName;
 
-  const [guthaben, setGuthaben] = useState(null);
+  const [guthaben, setGuthaben] = useState(0);
   const [input, setInput] = useState("");
   const [gesamtWert, setGesamtWert] = useState(null);
+  const [anteile, setAnteile] = useState(null);
   
   const [inputType, setInputType] = useState("anteile");
   const [inputIstGroeserAlsGuthaben, setInputIstGroeserAlsGuthaben] = useState(false);
@@ -37,42 +38,63 @@ export default function Order() {
 
   useEffect(() => {
     console.log(orderType);
-    try {
-      const guthaben = kontoFetch.getGuthaben();
-      setGuthaben(guthaben);
-    } catch (error) {
-      setGuthaben(0);
-    }
-  },[])
+  
+    const fetchGuthaben = async () => {
+      try {
+        const guthaben = await kontoFetch.getGuthaben();
+        setGuthaben(guthaben);
+      } catch (error) {
+        console.error("Fehler beim Abrufen des Guthabens:", error);
+        setGuthaben(0);
+      }
+    };
+  
+    fetchGuthaben();
+  }, []);
+
+  useEffect(() => {
+    console.log("Gesamtwert aktualisiert:", gesamtWert);
+    console.log("Guthaben:", guthaben);
+    setInputIstGroeserAlsGuthaben(gesamtWert > guthaben);
+  }, [gesamtWert, guthaben]);
+  
+  
  
   const handleInput = (e) => {
     const value = e.target.value;
-
+  
     if (isNaN(value) || value === "") {
       setInput(0);
       setGesamtWert(0);
       setInputIstGroeserAlsGuthaben(false);
       return;
     }
-
+  
     const inputValue = parseFloat(value);
     setInput(inputValue);
 
-    const gesamtWert = (inputValue * liveKurs).toFixed(2);
-    setGesamtWert(gesamtWert);
-
-    if (gesamtWert > guthaben) {
-      setInputIstGroeserAlsGuthaben(true);
-    }
-    else{
-      setInputIstGroeserAlsGuthaben(false);
-    }
+    berechneWert(inputValue);
+  
+    console.log("gesamtwert: " + gesamtWert + " guthaben: " + guthaben)
+    console.log(inputIstGroeserAlsGuthaben);
   };
 
-  const handleInputTypes = (e) => {
-    setInputType(e.target.value);
+  function berechneWert(inputValue) {
+    if (inputType === "anteile") {
+      setGesamtWert(parseFloat((inputValue * liveKurs).toFixed(2)));
+      setAnteile(inputValue);
+    } else {
+      setGesamtWert(parseFloat(inputValue));
+      setAnteile(gesamtWert / liveKurs);
+    }
   }
 
+  const handleInputTypes = (event) => {
+    const selectedValue = event.target.value;
+    console.log("Ausgewählter Wert:", selectedValue);
+    setInputType(selectedValue); 
+  };
+  
   const openUebersicht = () => {
     setAufWeiterGeklickt((prevState) => !prevState);
   }
@@ -102,6 +124,7 @@ export default function Order() {
   return (
     <div className="body-content">
 
+      {/* Order Input */}
       {!aufWeiterGeklickt ? (
         <div className="card" >
           <div className="card-top">
@@ -111,15 +134,14 @@ export default function Order() {
               <p id="gray-text">{guthaben} $ verfügbar</p>
           </div>
           <div className="card-middle">
-            <input type="text" name="anteileInput" id="anteileInput" placeholder="Anteile" onInput={handleInput}/>
+            <input type="text" name="anteileInput" id="anteileInput" placeholder={inputType === "anteile" ? "Anteile" : "Betrag"} onChange={handleInput}/>
             <p id="gray-text">Gesamt: {gesamtWert} $</p>
-            {/* Fehlermeldung Hinzufügen, dass wenn der gewünschte Betrag größer als das Guthaben ist */}
-            <p id="gray-text">{inputIstGroeserAlsGuthaben ? "Nicht genug Guthaben!": "ew"}</p>
+            <p id="gray-text">{inputIstGroeserAlsGuthaben ? "Nicht genug Guthaben!": ""}</p>
           </div>
           <div className="card-bottom">
             <select name="inputType" className="btn" onChange={handleInputTypes}>
               <option value="anteile">Anteile</option>
-              <option value="geldWert">Geld</option>
+              <option value="betrag">Betrag</option>
             </select>
             <button className={`${input === "" ? "btn-disabled" : "btn"} ${inputIstGroeserAlsGuthaben ? "btn-disabled" : "btn"}`} onClick={openUebersicht}>Weiter ❯</button>
           </div>
@@ -128,6 +150,7 @@ export default function Order() {
       ) : (
 
         <>
+        {/* Order Übersicht */}
         {!aufBestaetigenGeklickt ? (
           <div className="card">
             <div className="card-top">
@@ -149,7 +172,7 @@ export default function Order() {
                   </tr>
                   <tr>
                     <td>Anteile:</td>
-                    <td>{input}</td>
+                    <td>{anteile}</td>
                   </tr>
                   <tr>
                     <td>Aktueller Kurs:</td>
@@ -172,7 +195,8 @@ export default function Order() {
           </div>
 
         ) : (
-
+          <>
+          {/* Order BEstätigung */}
           <div className="card">
             <div className="card-top">
               <div className="order-top-infos">
@@ -194,7 +218,7 @@ export default function Order() {
 
               <>
                 <div className="card-middle">
-                  <p>Du hast {input} Aktie(n) für {gesamtWert} $ {orderType === "buy" ? "gekauft" : "verkauft"} ! </p>
+                  <p>Du hast {anteile} Aktie(n) für {gesamtWert} $ {orderType === "buy" ? "gekauft" : "verkauft"} ! </p>
                 </div>
                 <div className="card-bottom">
                   <button className="btn" onClick={openPortfolio}>Fertig</button>
@@ -202,6 +226,7 @@ export default function Order() {
               </>
             )}
           </div>
+          </>
         )}
         </>
       )}
