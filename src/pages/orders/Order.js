@@ -6,12 +6,15 @@ import '../style/Style.css';
 import {  useNavigate, useParams } from 'react-router-dom';
 import OrderFetch from './OrderFetch';
 import KontoFetch from '../konto/KontoFetch';
+import AktieFetch from '../aktie/AktieFetch';
 
 export default function Order() {
   const {liveKurs: urlLiveKurs} = useParams();
   const {ticker: urlTicker} = useParams();
   const {orderType: urlOrderType} = useParams();
   const {companyName: urlCompanyName} = useParams();
+
+  const [error, setError] = useState(null);
 
   const liveKurs = urlLiveKurs;
   const ticker = urlTicker;
@@ -22,9 +25,15 @@ export default function Order() {
   const [input, setInput] = useState("");
   const [gesamtWert, setGesamtWert] = useState(0);
   const [anteile, setAnteile] = useState(null);
+
+  const [deineDaten, setDeineDaten] = useState(null);
+  const [anteileImBesitz, setAnteileImBesitz] = useState(0);
+  const [gesamtWertImBesitz, setGesamtWertImBesitz] = useState(0);
   
   const [inputType, setInputType] = useState("anteile");
   const [inputIstGroeserAlsGuthaben, setInputIstGroeserAlsGuthaben] = useState(false);
+  const [inputIstGroeserAlsAnteileImBesitz, setInputIstGroeserAlsAnteileImBesitz] = useState(false);
+
 
   const [aufWeiterGeklickt, setAufWeiterGeklickt] = useState(false);
   const [aufBestaetigenGeklickt, setAugBestaetigenGeklickt] = useState();
@@ -33,29 +42,44 @@ export default function Order() {
 
   const orderFetch = new OrderFetch();
   const kontoFetch = new KontoFetch();
+  const aktieFetch = new AktieFetch();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(orderType);
-  
     const fetchGuthaben = async () => {
       try {
         const guthaben = await kontoFetch.getGuthaben();
         setGuthaben(guthaben);
       } catch (error) {
         console.error("Fehler beim Abrufen des Guthabens:", error);
-        setGuthaben(0);
+        setError(error.message);
       }
     };
+
+    const fetchAktienDaten = async () => {
+      if (!ticker) return;
+      setAnteileImBesitz(null);
+  
+      try {
+          const deineDaten = await aktieFetch.getPosition(ticker);
+          setDeineDaten(deineDaten);
+      } catch (error) {
+          setError(error.message);
+      } 
+    }
   
     fetchGuthaben();
+
+    if (orderType === "sell") {
+      fetchAktienDaten();
+    }
+
   }, []);
 
   useEffect(() => {
-    console.log("Gesamtwert aktualisiert:", gesamtWert);
-    console.log("Guthaben:", guthaben);
     setInputIstGroeserAlsGuthaben(gesamtWert > guthaben);
+    setInputIstGroeserAlsAnteileImBesitz(gesamtWert > deineDaten?.anzahlAktienAnteile * liveKurs)
   }, [gesamtWert, guthaben]);
  
   const handleInput = (e) => {
@@ -120,6 +144,10 @@ export default function Order() {
     navigate(`/aktie/${ticker}`);
   }
 
+  const gesamtwertBerechnen = (anteile) => {
+    return (anteile * liveKurs).toFixed(2);
+  }
+
   return (
     <div className="body-content">
 
@@ -131,8 +159,17 @@ export default function Order() {
                 <h1>{orderType === "buy" ? "Kaufen" : "Verkaufen"}</h1>
                 <button className="btn" onClick={() => navBack(ticker)}>X</button>
               </div>
-              <p id="gray-text">{guthaben} $ verfügbar</p>
+              <p id="gray-text">{guthaben} $ verfügbar</p>  
+              {orderType === "sell" ? (
+                <div className="order-verkaufen-infos">
+                  <p id="gray-text">Anteile im Besitz: {deineDaten?.anzahlAktienAnteile} </p>
+                  <p id="gray-text">Gesamtwert: {deineDaten?.anzahlAktienAnteile * liveKurs} $</p>
+                </div>
+              ) : (
+                <></>
+              )}
           </div>
+
           <div className="card-middle">
             <input 
               type="text" 
@@ -142,8 +179,10 @@ export default function Order() {
               onChange={handleInput}  
             />
             <p id="gray-text">Gesamt: {gesamtWert} $</p>
-            <p id="gray-text">{inputIstGroeserAlsGuthaben ? "Nicht genug Guthaben!": ""}</p>
+            <p id="gray-text">{inputIstGroeserAlsGuthaben && orderType === "buy" ? "Nicht genug Guthaben!": ""}</p>
+            <p id="gray-text">{inputIstGroeserAlsAnteileImBesitz && orderType === "sell" ? "Zu wenig im Besitz!": ""}</p>
           </div>
+
           <div className="card-bottom">
             <select name="inputType" className="btn" onChange={handleInputTypes}>
               <option value="anteile">Anteile</option>

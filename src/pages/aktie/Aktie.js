@@ -1,17 +1,12 @@
 import React, { use, useEffect, useState } from 'react';
 import AktieFetch from './AktieFetch';
 
-import Chart from '../../pictures/BspChart.png';
-
 import Empfehlungen from '../empfehlungen/Empfehlungen';
-
-
 
 import './Aktie.css';
 import '../style/Style.css';
 
 import { useNavigate, useParams } from 'react-router-dom';
-
 
 export default function Aktie() {
     const {ticker: urlTicker } = useParams();
@@ -29,13 +24,12 @@ export default function Aktie() {
 
     const navigate = useNavigate();
 
-
     const aktieFetch = new AktieFetch();
 
     async function sucheAktie(ticker) {
         if (!ticker) return;
+
         setError(null);
-    
         setLiveDaten(null);
         setInfoDaten(null);
         setDeineDaten(null);
@@ -52,16 +46,16 @@ export default function Aktie() {
     
             const deineDaten = await aktieFetch.getPosition(ticker);
             setDeineDaten(deineDaten);
-
         } catch (error) {
             setError(error.message);
         } 
-
-        if (deineDaten) {
-            positionenBerechnen(deineDaten);
-        }
-        
     }
+
+    useEffect(() => {
+        if (deineDaten && liveDaten) {
+          positionenBerechnen(deineDaten);
+        }
+    }, [deineDaten, liveDaten]);
 
     useEffect(() => {
         if (ticker) {
@@ -78,10 +72,11 @@ export default function Aktie() {
                 .getLiveData(ticker)
                 .then((data) => setLiveDaten(data))
                 .catch((e) => setError(e.message));
-        }, 10000);
+        }, 3000);
         return () => clearInterval(interval);
     });
     */
+    
     function positionenBerechnen(deineDaten) {
         let buyIn = deineDaten.buyInKurs;
         let anteile = deineDaten.anzahlAktienAnteile;
@@ -100,7 +95,6 @@ export default function Aktie() {
         return value > 0 ? "positive-change" : value < 0 ? "negative-change" : "neutral";
     }
     
-
     if (error) {
         return <div>Fehler: {error}</div>;
     }

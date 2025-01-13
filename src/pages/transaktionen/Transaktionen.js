@@ -32,7 +32,6 @@ export default function Transaktionen() {
         setTransaktionDetails(null);
     }
 
-
     useEffect(() => {
         async function fetchTransaktionen() {
             try {
@@ -56,6 +55,10 @@ export default function Transaktionen() {
             dateStyle: 'medium',
             timeStyle: 'short'
         }).format(date);
+    }
+
+    if (error) {
+        return <div>Fehler: {error}</div>;
     }
 
     return (
