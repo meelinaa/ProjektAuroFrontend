@@ -27,6 +27,9 @@ export default function Empfehlungen() {
     ];
     
     function navigateToAktie(ticker) {
+        if (!ticker) {
+            throw new Error("Fehler: Ticker darf nicht leer sein!");
+        }
         window.location.href = `/aktie/${ticker}`;
     }
 

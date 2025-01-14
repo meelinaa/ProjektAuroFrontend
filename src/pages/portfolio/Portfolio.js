@@ -15,7 +15,6 @@ export default function Portfolio() {
     const [liveDaten, setLiveDaten] = useState(null);
     const [error, setError] = useState(null);
     
-
     const portfolioFetch = new PortfolioFetch();
     const portfolioAktienDaten = new PortfolioAktienDaten();
 
@@ -43,21 +42,30 @@ export default function Portfolio() {
         fetchAktien();
     }, []);
 
-    if (error) {
-        return <div>Fehler: {error}</div>;
-    }
-
     function getLiveKursForAktie(aktieId) {
-        const liveKursObj = liveDaten?.find((data) => data.id === aktieId);
-        return liveKursObj?.kurs || "-";
+        if (!liveDaten || liveDaten.length === 0) {
+            return "-";
+        }
+    
+        for (let i = 0; i < liveDaten.length; i++) {
+            const aktuelleAktie = liveDaten[i]; 
+            if (aktuelleAktie.id === aktieId) {
+                return aktuelleAktie.kurs;
+            }
+        }
+    
+        return "-";
     }
 
     function gesamtwertBerechnen(aktie) {
         const aktuellerKurs = getLiveKursForAktie(aktie.id);
-        if (aktuellerKurs === "-") return "-";
+        if (aktuellerKurs === "-") {
+            return "-";
+        }
+    
         const gesamtWert = aktie.anzahlAktienAnteile * aktuellerKurs;
-        return gesamtWert.toFixed(2); 
-    }
+        return parseFloat(gesamtWert.toFixed(2));
+    }    
     
     function berechneWert(aktie, type) {
         const aktuellerKurs = getLiveKursForAktie(aktie.id);
@@ -69,31 +77,49 @@ export default function Portfolio() {
         let wert, className;
         if (type === "rendite") {
             wert = gesamtwertNeu - gesamtwertAlt;
-            className = wert > 0 ? "positive-change" : "negative-change";
+            className = getCssClass(wert);
         } else if (type === "performance") {
             wert = ((gesamtwertNeu / gesamtwertAlt) - 1) * 100;
-            className = wert > 0 ? "positive-change" : "negative-change";
+            className = getCssClass(wert);
         }
     
         return { valueOf: wert.toFixed(2), className };
     }
     
-
     function navigateToAktie(ticker){
+        if (!ticker) {
+            throw new Error("Fehler: Der Ticker darf nicht leer sein!");
+        }
       navigate(`/aktie/${ticker}`);
     }
 
     function berechneGesamtwertPortfolio() {
-        if (!portfolioAktien || !liveDaten) return 0;
-        return portfolioAktien.reduce((gesamtwert, aktie) => {
+        if (!portfolioAktien || !liveDaten) {
+            return 0;
+        }
+    
+        let gesamtwert = 0;
+    
+        for (let i = 0; i < portfolioAktien.length; i++) {
+            const aktie = portfolioAktien[i];
             const liveKurs = getLiveKursForAktie(aktie.id);
-            if (liveKurs === "-") return gesamtwert; 
-            return gesamtwert + aktie.anzahlAktienAnteile * liveKurs;
-        }, 0);
-    }
+    
+            if (liveKurs === "-") {
+                continue;
+            }
+    
+            gesamtwert += aktie.anzahlAktienAnteile * liveKurs;
+        }
+    
+        return gesamtwert;
+    }    
 
     function getCssClass(value) {
         return value > 0 ? "positive-change" : value < 0 ? "negative-change" : "";
+    }
+
+    if (error) {
+        return <div>Fehler: {error}</div>;
     }
     
     return (

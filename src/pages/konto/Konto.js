@@ -4,7 +4,6 @@ import Transaktionen from '../transaktionen/Transaktionen';
 
 import './Konto.css';
 
-
 export default function Konto() {
     const [guthaben, setGuthaben] = useState(null);
     const [inhaber, setInhaber] = useState(null);
@@ -47,4 +46,5 @@ export default function Konto() {
             <Transaktionen/>
         </div>
     )
+
 }

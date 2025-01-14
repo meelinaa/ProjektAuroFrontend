@@ -7,7 +7,6 @@ import Aktie from './pages/aktie/Aktie';
 import Order from './pages/orders/Order';
 import Start from './pages/startScreen/Start';
 import { useEffect } from 'react';
-import Transaktionen from './pages/transaktionen/Transaktionen';
 import Konto from './pages/konto/Konto';
 
 function StartWithRedirect() {

@@ -1,4 +1,3 @@
-
 class PortfolioFetch {
 
     async getAllePortfolioInfos(){

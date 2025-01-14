@@ -1,4 +1,3 @@
-
 class OrderFetch{
 
     async setTransaktion(ticker, orderType, liveKurs, anteile, companyName) {

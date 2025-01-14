@@ -99,12 +99,21 @@ export default function Order() {
   };
 
   function berechneWert(inputValue) {
+    if (!inputValue) {
+      throw new Error("Fehler: InputValue darf nicht leer sein");
+    }
+    if (!inputType) {
+      throw new Error("Fehler: InputType darf nicht leer sein");
+    }
+    if (!liveKurs) {
+      throw new Error("Fehler: LiveKurs darf nicht leer sein");
+    }
     if (inputType === "anteile") {
       setGesamtWert(parseFloat((inputValue * liveKurs).toFixed(2)));
       setAnteile(inputValue);
     } else {
-      setGesamtWert(parseFloat(inputValue));
-      setAnteile(gesamtWert / liveKurs);
+      setGesamtWert(parseFloat(inputValue).toFixed(2));
+      setAnteile(parseFloat(gesamtWert / liveKurs).toFixed(5));
     }
   }
 
@@ -142,10 +151,6 @@ export default function Order() {
 
   function navBack(ticker) {
     navigate(`/aktie/${ticker}`);
-  }
-
-  const gesamtwertBerechnen = (anteile) => {
-    return (anteile * liveKurs).toFixed(2);
   }
 
   return (

@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import AktieFetch from './AktieFetch';
 
 import Empfehlungen from '../empfehlungen/Empfehlungen';
@@ -53,7 +53,7 @@ export default function Aktie() {
 
     useEffect(() => {
         if (deineDaten && liveDaten) {
-          positionenBerechnen(deineDaten);
+          positionenBerechnen(deineDaten, liveDaten);
         }
     }, [deineDaten, liveDaten]);
 
@@ -77,7 +77,18 @@ export default function Aktie() {
     });
     */
     
-    function positionenBerechnen(deineDaten) {
+    function positionenBerechnen(deineDaten, liveDaten) {
+        if (deineDaten.anzahlAktienAnteile === 0 || 
+            !deineDaten || 
+            !liveDaten || 
+            typeof deineDaten.buyInKurs !== "number" ||
+            typeof deineDaten.anzahlAktienAnteile !== "number" ||
+            typeof liveDaten.regularMarketPrice !== "number"
+        ) {
+            setGesamtwertPosition(0);
+            setRenditePosition(0);
+            setPerformancePosition(0);       
+        }
         let buyIn = deineDaten.buyInKurs;
         let anteile = deineDaten.anzahlAktienAnteile;
         let gesamtwertAlt = buyIn * anteile;
@@ -88,6 +99,9 @@ export default function Aktie() {
     }
 
     function startToOrder(liveKurs, ticker, orderType, companyName){
+        if (!liveKurs || !ticker || !orderType || !companyName) {
+            throw new Error("Fehler: Die Inputs dürfen nicht leer sein");
+        }  
         navigate(`/order/${liveKurs}/${ticker}/${orderType}/${companyName}`);
     }
 
@@ -169,7 +183,7 @@ export default function Aktie() {
                     </div>
                 </div>
 
-
+            {/* Markt Informationen */}
             <div className="markt">
                 <div className="markt-daten">
                     <h3>Marktdaten</h3>
@@ -235,7 +249,6 @@ export default function Aktie() {
         )}
 
         <Empfehlungen/>
-
 
     </div>
   );

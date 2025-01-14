@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import TransaktionenFetch from './TransaktionenFetch';
-import '../style/Style.css';
-
-
+import TransaktionenFetch from './TransaktionenFetch'
+import '../style/Style.css'
 
 export default function Transaktionen() {
     const [alleTransaktionen, setAlleTransaktionen] = useState(null);
@@ -45,16 +43,20 @@ export default function Transaktionen() {
         fetchTransaktionen();
     }, []);
 
-    function gesamtwert(kurs, anteile) {
-        return (kurs * anteile).toFixed(2);
-    }
-
     function formatDate(dateString) {
         const date = new Date(dateString);
         return new Intl.DateTimeFormat('de-DE', {
             dateStyle: 'medium',
-            timeStyle: 'short'
+            timeStyle: 'short',
+            timeZone: 'UTC'
         }).format(date);
+    }
+
+    function gesamtwert(kurs, anteile) {
+        if (typeof kurs !== "number" || typeof anteile !== "number") {
+            return "0.00";
+        }
+        return (kurs * anteile).toFixed(2);
     }
 
     if (error) {
@@ -148,4 +150,5 @@ export default function Transaktionen() {
             )}
         </div>
     )
+    
 }

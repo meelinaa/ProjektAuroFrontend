@@ -1,4 +1,3 @@
-
 class KontoFetch{
 
     async getGuthaben(){
@@ -19,4 +18,3 @@ class KontoFetch{
 }
 
 export default KontoFetch;
-
