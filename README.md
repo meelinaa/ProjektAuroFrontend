@@ -86,3 +86,13 @@ cd ProjektAuroFrontend
 - **Komponentenbasierte Architektur:** Wiederverwendbare React-Komponenten für eine modulare und wartbare Codebasis.  
 - **Clean Code-Prinzipien:** Strukturiertes und leicht verständliches Styling und JavaScript.  
 - **Iterative Entwicklung:** Features werden schrittweise hinzugefügt und optimiert.  
+
+---
+
+## Lizenz
+Dieses Projekt steht unter der [MIT-Lizenz](LICENSE).
+
+---
+
+## Kontakt
+Für Fragen oder Feedback kontaktieren Sie mich über [E-Mail](mailto:melinakiefer@hotmail.de) oder GitHub.
