@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+# Auro Frontend: Virtueller Aktien-Broker 📈
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Das Frontend von **Auro** bietet eine intuitive und benutzerfreundliche Oberfläche, mit der Benutzer Aktien durchsuchen, kaufen und verkaufen sowie ihr Portfolio verwalten können. Die Anwendung kommuniziert mit dem Backend über RESTful APIs und wurde mit Fokus auf Performance und Benutzerfreundlichkeit entwickelt.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Übersichtliches Dashboard:** Zeigt den aktuellen Kontostand und eine Übersicht des Portfolios.  
+- **Aktien-Suche:** Durchsuchen Sie Aktien mit Live-Daten und Details.  
+- **Kauf-/Verkaufsansicht:** Ermöglicht einfache und schnelle Transaktionen.  
+- **Transaktionshistorie:** Zeigt alle bisherigen Käufe und Verkäufe an.  
+- **Reaktionsschnelle Benutzeroberfläche:** Optimiert für Desktop- und mobile Geräte.  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologien
 
-### `npm test`
+- ⚛️ **React:** Für die Entwicklung einer dynamischen und interaktiven Benutzeroberfläche.  
+- 🎨 **HTML & CSS:** Für das Styling und die Struktur der Anwendung.  
+- 🌐 **RESTful APIs:** Kommunikation mit dem Backend, um Daten in Echtzeit bereitzustellen.  
+- 🔧 **Tools & Frameworks:**  
+  - React Router für Navigation.  
+  - Axios für API-Aufrufe.  
+  - Zustand (oder Redux, falls verwendet) für State-Management.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Projektstruktur
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Dieses Frontend ist Teil des Gesamtprojekts **Auro**. Das dazugehörige Backend finden Sie hier:
+- [Backend Repository](https://github.com/meelinaa/ProjektAuro)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Voraussetzungen
 
-### `npm run eject`
+Um das Frontend lokal auszuführen, benötigen Sie folgende Tools:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. [Node.js](https://nodejs.org/) (LTS-Version empfohlen)  
+2. Git (zum Klonen des Repositories)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Lokale Installation und Ausführung
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 1. Repository klonen
+```bash
+git clone https://github.com/meelinaa/ProjektAuroFrontend.git
+cd ProjektAuroFrontend
+```
 
-## Learn More
+### 2. Frontend starten
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **Abhängigkeiten installieren:**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   Wechseln Sie ins Frontend-Verzeichnis:
+   ```bash
+   cd frontend
+   npm install
+   ```
 
-### Code Splitting
+2. **Frontend starten:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   ```bash
+   npm start
+   ```
 
-### Analyzing the Bundle Size
+   Das Frontend wird standardmäßig unter `http://localhost:3000` ausgeführt.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## Nutzung
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. Besuchen Sie die URL `http://localhost:3000` in Ihrem Browser.  
+2. Navigieren Sie durch die intuitive Benutzeroberfläche, um:  
+   - Aktien zu durchsuchen und zu analysieren.  
+   - Aktien zu kaufen oder zu verkaufen.  
+   - Ihr Portfolio zu verwalten und Transaktionen zu verfolgen.  
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Software-Entwicklung und Planung
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Planung und Design:** Erstellung der Benutzeroberfläche in Figma, einschließlich Wireframes und visueller Designs.  
+- **Komponentenbasierte Architektur:** Wiederverwendbare React-Komponenten für eine modulare und wartbare Codebasis.  
+- **Clean Code-Prinzipien:** Strukturiertes und leicht verständliches Styling und JavaScript.  
+- **Iterative Entwicklung:** Features werden schrittweise hinzugefügt und optimiert.  
