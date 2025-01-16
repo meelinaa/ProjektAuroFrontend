@@ -2,15 +2,16 @@
 // Transaktionen.test.js
 describe('gesamtwert', () => {
 
-    let kurs;
-    let anteile;
+  let kurs;
+  let anteile;
 
-    function gesamtwert(kurs, anteile) {
-        if (typeof kurs !== "number" || typeof anteile !== "number") {
-            return "0.00";
-        }
-        return (kurs * anteile).toFixed(2);
-    }
+  function gesamtwert(kurs, anteile) {
+      if (typeof kurs !== "number" || typeof anteile !== "number") {
+          return "0.00";
+      }
+      return (kurs * anteile).toFixed(2);
+  };
+
   test('gesamtwert berechnet den Gesamtwert korrekt', () => {
     kurs = 100;
     anteile = 10;
@@ -85,21 +86,21 @@ describe('formatDate', () => {
       dateStyle: 'medium',
       timeStyle: 'short',
       timeZone: 'UTC'
-  }).format(date);
-  }
+    }).format(date);
+  };
 
   test('formatDate gibt korrektes Datum zurück', () => {
     dateString = "2023-12-31T23:59:59Z";
 
     const date = formatDate(dateString);
     expect(date).toEqual("31.12.2023, 23:59");
-  })
+  });
 
   test('formatDate gibt korrektes Datum zurück mit anderen Testwerten', () => {
     dateString = "2024-03-12T15:14:26Z";
 
     const date = formatDate(dateString);
     expect(date).toEqual("12.03.2024, 15:14");
-  })
+  });
   
-})
+});

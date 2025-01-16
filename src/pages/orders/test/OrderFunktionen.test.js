@@ -1,5 +1,4 @@
 // NOTE: Funktion hier definiert, da Tests für die Hauptdatei derzeit nicht funktionieren.
-
 describe('berechneWert testen', () => {
 
   let inputType;
@@ -19,14 +18,14 @@ describe('berechneWert testen', () => {
     let gesamtWert;
     let anteile;
     if (inputType === "anteile") {
-        gesamtWert = parseFloat((inputValue * liveKurs).toFixed(2));
-        anteile = inputValue;
+      gesamtWert = parseFloat((inputValue * liveKurs).toFixed(2));
+      anteile = inputValue;
     } else {
-        gesamtWert = parseFloat(parseFloat(inputValue).toFixed(2));
-        anteile = parseFloat((gesamtWert / liveKurs).toFixed(5));
+      gesamtWert = parseFloat(parseFloat(inputValue).toFixed(2));
+      anteile = parseFloat((gesamtWert / liveKurs).toFixed(5));
     }  
     return {gesamtWert, anteile};
-  }
+  };
 
   test('berechneWert gibt korrekte Berechnung zurück, wenn inputType = "anteile"', () => {
     inputType = "anteile";
@@ -81,4 +80,5 @@ describe('berechneWert testen', () => {
       "Fehler: InputValue darf nicht leer sein"
     );
   });
+
 });

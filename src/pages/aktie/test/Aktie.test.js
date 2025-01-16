@@ -4,7 +4,7 @@ describe('getCssClass testen:', () => {
 
   function getCssClass(value) {
     return value > 0 ? "positive-change" : value < 0 ? "negative-change" : "neutral";
-  }
+  };
 
   test('getCssClass gibt "positive-change" für positive Werte zurück', () => {
     expect(getCssClass(10)).toBe('positive-change');
@@ -25,23 +25,24 @@ describe('getCssClass testen:', () => {
   test('getCssClass gibt "neutral" für null zurück', () => {
     expect(getCssClass(null)).toBe('neutral');
   });
+
 });
 
-
 describe('positionenBerechnen testen:', () => {
+
   let deineDaten;
   let liveDaten;
 
   function positionenBerechnen(deineDaten, liveDaten) {
     if (deineDaten.anzahlAktienAnteile === 0 || 
-        !deineDaten || 
-        !liveDaten || 
-        typeof deineDaten.buyInKurs !== "number" ||
-        typeof deineDaten.anzahlAktienAnteile !== "number" ||
-        typeof liveDaten.regularMarketPrice !== "number"
+      !deineDaten || 
+      !liveDaten || 
+      typeof deineDaten.buyInKurs !== "number" ||
+      typeof deineDaten.anzahlAktienAnteile !== "number" ||
+      typeof liveDaten.regularMarketPrice !== "number"
     ) {
       return { gesamtwertPosition:0, renditePosition:0, performancePosition:0 };
-    }
+    };
 
     let buyIn = deineDaten.buyInKurs;
     let anteile = deineDaten.anzahlAktienAnteile;
@@ -52,7 +53,7 @@ describe('positionenBerechnen testen:', () => {
     let performancePosition = parseFloat((((gesamtwertNeu - gesamtwertAlt) / gesamtwertAlt) * 100).toFixed(2));
   
     return { gesamtwertPosition, renditePosition, performancePosition };
-  }
+  };
 
   test('positionenBerechnen berechnet korrekte Positionen für gültige Eingaben', () => {
     deineDaten = {buyInKurs: 100, anzahlAktienAnteile: 10};
@@ -64,8 +65,8 @@ describe('positionenBerechnen testen:', () => {
       gesamtwertPosition: 1200,
       renditePosition: 200,
       performancePosition: 20,
-    })
-  })
+    });
+  });
 
   test('positionenBerechnen gibt Nullwerte zurück, wenn keine Anteile vorhanden sind', () => {
     deineDaten = { buyInKurs: 100, anzahlAktienAnteile: 0 };
@@ -78,7 +79,7 @@ describe('positionenBerechnen testen:', () => {
       renditePosition: 0,
       performancePosition: 0,
     });
-  })
+  });
 
   test('positionenBerechnen gibt Nullwerte zurück, wenn der Buy-In-Kurs nicht definiert ist', () => {
     deineDaten = { buyInKurs: undefined, anzahlAktienAnteile: 0 };
@@ -91,7 +92,7 @@ describe('positionenBerechnen testen:', () => {
       renditePosition: 0,
       performancePosition: 0,
     });
-  })
+  });
 
   test('positionenBerechnen gibt Nullwerte zurück, wenn die Anzahl der Aktienanteile nicht definiert ist', () => {
     deineDaten = { buyInKurs: 100, anzahlAktienAnteile: undefined };
@@ -104,7 +105,7 @@ describe('positionenBerechnen testen:', () => {
       renditePosition: 0,
       performancePosition: 0,
     });
-  })
+  });
 
   test('positionenBerechnen gibt Nullwerte zurück, wenn der aktuelle Marktpreis nicht definiert ist', () => {
     deineDaten = { buyInKurs: 100, anzahlAktienAnteile: 10 };
@@ -117,7 +118,7 @@ describe('positionenBerechnen testen:', () => {
       renditePosition: 0,
       performancePosition: 0,
     });
-  })
+  });
 
   test('positionenBerechnen gibt Nullwerte zurück, wenn alle Eingabewerte nicht definiert sind', () => {
     deineDaten = { buyInKurs: undefined, anzahlAktienAnteile: undefined };
@@ -130,7 +131,7 @@ describe('positionenBerechnen testen:', () => {
       renditePosition: 0,
       performancePosition: 0,
     });
-  })
+  });
 
   test('positionenBerechnen gibt Nullwerte zurück, wenn alle Eingabewerte null sind', () => {
     deineDaten = { buyInKurs: null, anzahlAktienAnteile: null };
@@ -143,7 +144,7 @@ describe('positionenBerechnen testen:', () => {
       renditePosition: 0,
       performancePosition: 0,
     });
-  })
+  });
   
 });
 
@@ -157,9 +158,9 @@ describe('CreateOrderUrl testen:', () => {
   function createOrderUrl(liveKurs, ticker, orderType, companyName) {
     if (!liveKurs || !ticker || !orderType || !companyName) {
       throw new Error("Fehler: Die Inputs dürfen nicht leer sein");
-    }   
+    };   
     return `/order/${liveKurs}/${ticker}/${orderType}/${companyName}`;
-  }
+  };
 
   test('CreateOrderUrl generiert korrekte URL für Verkaufsorder', () => {
     liveKurs = 120;
@@ -169,7 +170,7 @@ describe('CreateOrderUrl testen:', () => {
 
     const url = createOrderUrl(liveKurs, ticker, orderType, companyName);
     expect(url).toBe('/order/120/AAPL/sell/Apple');
-  })
+  });
 
   test('CreateOrderUrl generiert korrekte URL für Kauforder', () => {
     liveKurs = 120;
@@ -179,7 +180,7 @@ describe('CreateOrderUrl testen:', () => {
 
     const url = createOrderUrl(liveKurs, ticker, orderType, companyName);
     expect(url).toBe('/order/120/AAPL/buy/Apple');
-  })
+  });
 
   test('CreateOrderUrl generiert error für leeren Live Kurs', () => {
     liveKurs = undefined;
@@ -188,7 +189,7 @@ describe('CreateOrderUrl testen:', () => {
     companyName = "Apple";
 
     expect(() => createOrderUrl(liveKurs, ticker, orderType, companyName)).toThrow("Fehler: Die Inputs dürfen nicht leer sein");
-  })
+  });
   
   test('CreateOrderUrl generiert error für leeren Ticker', () => {
     liveKurs = 120;
@@ -197,7 +198,7 @@ describe('CreateOrderUrl testen:', () => {
     companyName = "Apple";
 
     expect(() => createOrderUrl(liveKurs, ticker, orderType, companyName)).toThrow("Fehler: Die Inputs dürfen nicht leer sein");
-  })
+  });
 
   test('CreateOrderUrl generiert error für leeren OrderType', () => {
     liveKurs = 120;
@@ -206,7 +207,8 @@ describe('CreateOrderUrl testen:', () => {
     companyName = "Apple";
 
     expect(() => createOrderUrl(liveKurs, ticker, orderType, companyName)).toThrow("Fehler: Die Inputs dürfen nicht leer sein");
-  })
+  });
+
   test('CreateOrderUrl generiert error für leeren Company Name', () => {
     liveKurs = 120;
     ticker = "AAPL";
@@ -214,6 +216,6 @@ describe('CreateOrderUrl testen:', () => {
     companyName = undefined;
 
     expect(() => createOrderUrl(liveKurs, ticker, orderType, companyName)).toThrow("Fehler: Die Inputs dürfen nicht leer sein");
-  })
+  });
   
-})
+});

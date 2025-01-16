@@ -7,9 +7,9 @@ describe('navigateToAktie testen:', () => {
   function navigateToAktie(ticker) {
     if (!ticker) {
       throw new Error("Fehler: Ticker darf nicht leer sein!");
-    }
+    };
     return `/aktie/${ticker}`;
-  }
+  };
 
   test('navigateToAktie gibt korrekten Link zurück nach Ticker-Eingabe', () => {
     ticker = "AAPL";

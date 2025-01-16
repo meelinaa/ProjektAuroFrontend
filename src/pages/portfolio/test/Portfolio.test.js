@@ -5,6 +5,7 @@ function getCssClass(value) {
 }
 
 describe('berechneGesamtwertPortfolio-Funktion', () => {
+
   let portfolioAktien;
   let liveDaten;
 
@@ -27,7 +28,7 @@ describe('berechneGesamtwertPortfolio-Funktion', () => {
     }
   
     return gesamtwert; 
-  }
+  };
 
   test('berechneGesamtwertPortfolio gibt 0 zurück, wenn portfolioAktien nicht definiert sind', () => {
     portfolioAktien = undefined;
@@ -80,9 +81,11 @@ describe('berechneGesamtwertPortfolio-Funktion', () => {
     const result = berechneGesamtwertPortfolio();
     expect(result).toBe(0); 
   });
+
 });
 
 describe('navigateToAktie testen:', () => {
+
   let ticker;
 
   function navigateToAktie(ticker) {
@@ -90,7 +93,7 @@ describe('navigateToAktie testen:', () => {
       throw new Error("Fehler: Der Ticker darf nicht leer sein!");
     }
     return `/aktie/${ticker}`;
-  }
+  };
 
   test('navigateToAktie gibt die richtige URL zurück, wenn ein Ticker angegeben ist', () => {
     ticker = "AAPL";
@@ -103,9 +106,11 @@ describe('navigateToAktie testen:', () => {
     ticker = null;
     expect(() => navigateToAktie(ticker)).toThrow("Fehler: Der Ticker darf nicht leer sein!");
   });
+
 });
 
 describe('berechneWert', () => {
+
   let aktie;
   let type;
   let liveKurs;
@@ -119,15 +124,15 @@ describe('berechneWert', () => {
   
     let wert, className;
     if (type === "rendite") {
-        wert = gesamtwertNeu - gesamtwertAlt;
-        className = getCssClass(wert);
+      wert = gesamtwertNeu - gesamtwertAlt;
+      className = getCssClass(wert);
     } else if (type === "performance") {
-        wert = ((gesamtwertNeu / gesamtwertAlt) - 1) * 100;
-        className = getCssClass(wert);
+      wert = ((gesamtwertNeu / gesamtwertAlt) - 1) * 100;
+      className = getCssClass(wert);
     }
   
     return { valueOf: wert.toFixed(2), className };
-  }
+  };
 
   test('berechneWert gibt korrekten positiven Wert für Rendite zurück', () => {
     aktie = {buyInKurs: 100, anzahlAktienAnteile: 10};
@@ -136,7 +141,7 @@ describe('berechneWert', () => {
 
     const berechnung = berechneWert(aktie, type, liveKurs);
     expect(berechnung).toEqual({valueOf: "200.00", className: "positive-change"});
-  })
+  });
 
   test('berechneWert gibt korrekten negativen Wert für Rendite zurück', () => {
     aktie = {buyInKurs: 100, anzahlAktienAnteile: 10};
@@ -145,7 +150,7 @@ describe('berechneWert', () => {
 
     const berechnung = berechneWert(aktie, type, liveKurs);
     expect(berechnung).toEqual({valueOf: "-500.00", className: "negative-change"});
-  })
+  });
   
   test('berechneWert gibt korrekten positiven Wert für Performance zurück', () => {
     aktie = {buyInKurs: 100, anzahlAktienAnteile: 10};
@@ -154,7 +159,7 @@ describe('berechneWert', () => {
 
     const berechnung = berechneWert(aktie, type, liveKurs);
     expect(berechnung).toEqual({valueOf: "20.00", className: "positive-change"});
-  })
+  });
 
   test('berechneWert gibt korrekten negativen Wert für Performance zurück', () => {
     aktie = {buyInKurs: 100, anzahlAktienAnteile: 10};
@@ -163,7 +168,7 @@ describe('berechneWert', () => {
 
     const berechnung = berechneWert(aktie, type, liveKurs);
     expect(berechnung).toEqual({valueOf: "-50.00", className: "negative-change"});
-  })
+  });
 
   test('berechneWert gibt leere Werte zurück, wenn aktueller Kurs "-" ist', () => {
     aktie = {buyInKurs: 100, anzahlAktienAnteile: 10};
@@ -172,7 +177,7 @@ describe('berechneWert', () => {
 
     const berechnung = berechneWert(aktie, type, liveKurs);
     expect(berechnung).toEqual({valueOf: "-", className: ""});
-  })
+  });
 
   test('berechneWert gibt leere Werte zurück, wenn aktueller Kurs ungültig ist', () => {
     aktie = {buyInKurs: 100, anzahlAktienAnteile: 10};
@@ -181,23 +186,24 @@ describe('berechneWert', () => {
 
     const berechnung = berechneWert(aktie, type, liveKurs);
     expect(berechnung).toEqual({valueOf: "-", className: ""});
-  })
+  });
   
-})
+});
 
 describe('gesamtwertBerechnen', () => {
+
   let aktie;
   let liveKurs;
 
   function gesamtwertBerechnen(aktie) {
     const aktuellerKurs = liveKurs;
     if (aktuellerKurs === "-" || !aktuellerKurs) {
-        return "-";
+      return "-";
     }
 
     const gesamtWert = aktie.anzahlAktienAnteile * aktuellerKurs;
     return parseFloat(gesamtWert.toFixed(2));  
-  }   
+  };   
 
   test("gesamtwertBerechnen berechnet den Gesamtwert mit gültigen Werten korrekt", () => {
     aktie = {anzahlAktienAnteile: 10};
@@ -205,7 +211,7 @@ describe('gesamtwertBerechnen', () => {
 
     const berechnen = gesamtwertBerechnen(aktie);
     expect(berechnen).toEqual(1000);
-  })
+  });
 
   test("gesamtwertBerechnen berechnet den Gesamtwert mit gültigen Werten korrekt mit Nachkommastellen", () => {
     aktie = {anzahlAktienAnteile: 5};
@@ -213,7 +219,7 @@ describe('gesamtwertBerechnen', () => {
 
     const berechnen = gesamtwertBerechnen(aktie);
     expect(berechnen).toBeCloseTo(826.20, 2);
-  })
+  });
 
   test('gesamtwertBerechnen gibt "-" bei fehlendem Kurs zurück', () => {
     aktie = {anzahlAktienAnteile: 5};
@@ -221,7 +227,7 @@ describe('gesamtwertBerechnen', () => {
 
     const berechnen = gesamtwertBerechnen(aktie);
     expect(berechnen).toEqual("-");
-  })
+  });
 
   test('gesamtwertBerechnen gibt "-" bei leerem Kurs zurück', () => {
     aktie = {anzahlAktienAnteile: 5};
@@ -229,11 +235,12 @@ describe('gesamtwertBerechnen', () => {
 
     const berechnen = gesamtwertBerechnen(aktie);
     expect(berechnen).toEqual("-");
-  })
+  });
   
-})
+});
 
 describe('getLiveKursForAktie testen:', () => {
+
   let liveDaten;
 
   function getLiveKursForAktie(aktieId) {
@@ -247,7 +254,7 @@ describe('getLiveKursForAktie testen:', () => {
       }
     }
     return "-";
-  }
+  };
 
   test('getLiveKursForAktie gibt den richtigen Kurs zurück, wenn die ID übereinstimmt', () => {
     liveDaten = [{ id: 1, kurs: 100 }, { id: 2, kurs: 200 }];
@@ -272,4 +279,5 @@ describe('getLiveKursForAktie testen:', () => {
     const result = getLiveKursForAktie(1);
     expect(result).toBe("-");
   });
+
 });
