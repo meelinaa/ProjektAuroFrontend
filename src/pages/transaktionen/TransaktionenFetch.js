@@ -10,4 +10,4 @@ class TransaktionenFetch {
     
 }
 
-export default TransaktionenFetch
+export default TransaktionenFetch;

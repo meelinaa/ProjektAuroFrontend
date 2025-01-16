@@ -1,6 +1,9 @@
 class OrderFetch{
 
     async setTransaktion(ticker, orderType, liveKurs, anteile, companyName) {
+        if (!ticker || !orderType || !liveKurs || !anteile || !companyName) {
+            throw new Error('Fehler: ungültiger oder fehlender Parameter');
+        }
         try {
             const response = await fetch(`http://localhost:8080/order/transaktion`, {
                 method: "POST",

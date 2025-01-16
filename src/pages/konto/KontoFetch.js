@@ -13,6 +13,7 @@ class KontoFetch{
         if(!response.ok) {
             throw new Error(`Fehler beim Abrufen des Namens: ${response.statusText}`)
         }
+        return await response.json();
     }
 
 }
