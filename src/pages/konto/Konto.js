@@ -16,9 +16,6 @@ export default function Konto() {
             try {
                 const guthaben = await kontoFetch.getGuthaben();
                 setGuthaben(guthaben);
-
-                const inhaber = await kontoFetch.getName();
-                setInhaber(inhaber);
             } catch (error) {
                 setError(error.message);
                 console.error("Fehler beim Abrufen der Daten: ", error.message);
@@ -37,7 +34,7 @@ export default function Konto() {
 
     return (
         <div className="body-content">
-            <h1 h-titel>Willkommen {inhaber}</h1>
+            <h1 h-titel>Deine Investitionen </h1>
             <div className="basic-div">
                 <h2 className="no-padding-margin">Dein Guthaben:</h2>
                 <p className={`no-padding-margin guthaben ${getCssClass(guthaben)}`}>{guthaben} $</p>

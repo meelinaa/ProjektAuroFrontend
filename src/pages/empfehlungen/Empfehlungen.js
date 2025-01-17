@@ -12,7 +12,7 @@ export default function Empfehlungen() {
         { name: 'Alphabet (Google) Class C', ticker: 'GOOG' },
         { name: 'Meta Platforms (Facebook)', ticker: 'META' },
         { name: 'NVIDIA', ticker: 'NVDA' },
-        { name: 'Berkshire Hathaway', ticker: 'BRK.B' },
+        { name: 'Berkshire Hathaway', ticker: 'BRK-B' },
         { name: 'Johnson & Johnson', ticker: 'JNJ' },
         { name: 'Visa', ticker: 'V' },
         { name: 'Procter & Gamble', ticker: 'PG' },
